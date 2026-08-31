@@ -1,0 +1,17 @@
+# Default ownership
+* @your-github-handle
+
+# AI governance assets
+/.github/ai/flutter-enterprise-policy.md @your-github-handle
+/.github/copilot-instructions.md @your-github-handle
+/.cursor/rules/flutter-enterprise.mdc @your-github-handle
+/.github/instructions/flutter-enterprise.instructions.md @your-github-handle
+/.github/instructions/repo-governance.instructions.md @your-github-handle
+/scripts/sync_ai_rules.ps1 @your-github-handle
+/scripts/install_git_hooks.ps1 @your-github-handle
+/.githooks/pre-commit @your-github-handle
+/.github/workflows/ai-policy-sync-check.yml @your-github-handle
+/.github/workflows/security-policy-guard.yml @your-github-handle
+/.github/workflows/engineering-guardrails.yml @your-github-handle
+/.github/workflows/production-readiness-score.yml @your-github-handle
+

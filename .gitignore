@@ -1,0 +1,8 @@
+# Flutter generated files
+.dart_tool/
+.packages
+build/
+.env
+
+# FVM Version Cache
+.fvm/
