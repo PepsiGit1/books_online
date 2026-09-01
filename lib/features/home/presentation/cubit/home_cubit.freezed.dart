@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   Status get status => throw _privateConstructorUsedError;
   String get mess => throw _privateConstructorUsedError;
+  int get currentIndex => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +33,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({Status status, String mess});
+  $Res call({Status status, String mess, int currentIndex});
 }
 
 /// @nodoc
@@ -49,11 +50,15 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? status = freezed, Object? mess = null}) {
+  $Res call({
+    Object? status = null,
+    Object? mess = null,
+    Object? currentIndex = null,
+  }) {
     return _then(
       _value.copyWith(
             status:
-                freezed == status
+                null == status
                     ? _value.status
                     : status // ignore: cast_nullable_to_non_nullable
                         as Status,
@@ -62,6 +67,11 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                     ? _value.mess
                     : mess // ignore: cast_nullable_to_non_nullable
                         as String,
+            currentIndex:
+                null == currentIndex
+                    ? _value.currentIndex
+                    : currentIndex // ignore: cast_nullable_to_non_nullable
+                        as int,
           )
           as $Val,
     );
@@ -77,7 +87,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   ) = __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Status status, String mess});
+  $Res call({Status status, String mess, int currentIndex});
 }
 
 /// @nodoc
@@ -93,11 +103,15 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? status = freezed, Object? mess = null}) {
+  $Res call({
+    Object? status = null,
+    Object? mess = null,
+    Object? currentIndex = null,
+  }) {
     return _then(
       _$HomeStateImpl(
         status:
-            freezed == status
+            null == status
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                     as Status,
@@ -106,6 +120,11 @@ class __$$HomeStateImplCopyWithImpl<$Res>
                 ? _value.mess
                 : mess // ignore: cast_nullable_to_non_nullable
                     as String,
+        currentIndex:
+            null == currentIndex
+                ? _value.currentIndex
+                : currentIndex // ignore: cast_nullable_to_non_nullable
+                    as int,
       ),
     );
   }
@@ -114,7 +133,11 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeStateImpl implements _HomeState {
-  const _$HomeStateImpl({this.status = Status.initial, this.mess = ''});
+  const _$HomeStateImpl({
+    this.status = Status.initial,
+    this.mess = '',
+    this.currentIndex = 0,
+  });
 
   @override
   @JsonKey()
@@ -122,10 +145,13 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final String mess;
+  @override
+  @JsonKey()
+  final int currentIndex;
 
   @override
   String toString() {
-    return 'HomeState(status: $status, mess: $mess)';
+    return 'HomeState(status: $status, mess: $mess, currentIndex: $currentIndex)';
   }
 
   @override
@@ -133,16 +159,14 @@ class _$HomeStateImpl implements _HomeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeStateImpl &&
-            const DeepCollectionEquality().equals(other.status, status) &&
-            (identical(other.mess, mess) || other.mess == mess));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.mess, mess) || other.mess == mess) &&
+            (identical(other.currentIndex, currentIndex) ||
+                other.currentIndex == currentIndex));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(status),
-    mess,
-  );
+  int get hashCode => Object.hash(runtimeType, status, mess, currentIndex);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -154,13 +178,18 @@ class _$HomeStateImpl implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState({final Status status, final String mess}) =
-      _$HomeStateImpl;
+  const factory _HomeState({
+    final Status status,
+    final String mess,
+    final int currentIndex,
+  }) = _$HomeStateImpl;
 
   @override
   Status get status;
   @override
   String get mess;
+  @override
+  int get currentIndex;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

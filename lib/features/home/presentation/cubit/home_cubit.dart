@@ -10,4 +10,13 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState());
 
   final TextEditingController searchController = TextEditingController();
+  void changePage(int index) {
+    emit(state.copyWith(currentIndex: index));
+  }
+
+  @override
+  Future<void> close() {
+    searchController.dispose();
+    return super.close();
+  }
 }
