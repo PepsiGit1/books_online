@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HomeState {
+  Status get status => throw _privateConstructorUsedError;
   String get mess => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
@@ -31,7 +32,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({String mess});
+  $Res call({Status status, String mess});
 }
 
 /// @nodoc
@@ -48,9 +49,14 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? mess = null}) {
+  $Res call({Object? status = freezed, Object? mess = null}) {
     return _then(
       _value.copyWith(
+            status:
+                freezed == status
+                    ? _value.status
+                    : status // ignore: cast_nullable_to_non_nullable
+                        as Status,
             mess:
                 null == mess
                     ? _value.mess
@@ -71,7 +77,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   ) = __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String mess});
+  $Res call({Status status, String mess});
 }
 
 /// @nodoc
@@ -87,9 +93,14 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? mess = null}) {
+  $Res call({Object? status = freezed, Object? mess = null}) {
     return _then(
       _$HomeStateImpl(
+        status:
+            freezed == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                    as Status,
         mess:
             null == mess
                 ? _value.mess
@@ -103,15 +114,18 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeStateImpl implements _HomeState {
-  const _$HomeStateImpl({this.mess = ''});
+  const _$HomeStateImpl({this.status = Status.initial, this.mess = ''});
 
+  @override
+  @JsonKey()
+  final Status status;
   @override
   @JsonKey()
   final String mess;
 
   @override
   String toString() {
-    return 'HomeState(mess: $mess)';
+    return 'HomeState(status: $status, mess: $mess)';
   }
 
   @override
@@ -119,11 +133,16 @@ class _$HomeStateImpl implements _HomeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$HomeStateImpl &&
+            const DeepCollectionEquality().equals(other.status, status) &&
             (identical(other.mess, mess) || other.mess == mess));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, mess);
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(status),
+    mess,
+  );
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -135,8 +154,11 @@ class _$HomeStateImpl implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState({final String mess}) = _$HomeStateImpl;
+  const factory _HomeState({final Status status, final String mess}) =
+      _$HomeStateImpl;
 
+  @override
+  Status get status;
   @override
   String get mess;
 
