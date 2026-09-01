@@ -1,3 +1,4 @@
+import 'package:books_online/core/widgets/card_book_widget.dart';
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart';
 import 'package:books_online/features/home/presentation/widgets/app_search.dart';
 import 'package:books_online/features/home/presentation/widgets/carsoudel_widget.dart';
@@ -11,6 +12,7 @@ class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<HomeCubit>();
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(title: AppSearchBar(controller: cubit.searchController), centerTitle: true),
@@ -55,6 +57,27 @@ class HomeContent extends StatelessWidget {
                 onSelected: (index) {
                   print('Selected: $index');
                 },
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: size.height * 0.38,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  separatorBuilder: (_, __) => const SizedBox(width: 10),
+                  itemBuilder: (context, index) {
+                    return CardBookWidget(
+                      imageUrl:
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOTl8C5uegu9JKL959rk3pbNgiB7cwrXAbKRrWY4lJPCyfzD-eErf8gZq6&s=10',
+                      title: 'The Psychology of Money',
+                      author: 'Morgan Housel',
+                      rating: 4.8,
+                      onPressed: () {
+                        print('Book $index clicked');
+                      },
+                    );
+                  },
+                ),
               ),
             ],
           ),
