@@ -1,6 +1,7 @@
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart';
 import 'package:books_online/features/home/presentation/widgets/app_search.dart';
 import 'package:books_online/features/home/presentation/widgets/carsoudel_widget.dart';
+import 'package:books_online/features/home/presentation/widgets/category_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,8 +49,13 @@ class HomeContent extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              const Text('data'),
-              const Text('data'),
+              CategoryWidget(
+                categories: const ['All', 'Fiction', 'Romance', 'Science', 'History', 'Technology'],
+                selectedIndex: 0,
+                onSelected: (index) {
+                  print('Selected: $index');
+                },
+              ),
             ],
           ),
         ),
