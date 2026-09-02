@@ -1,4 +1,5 @@
 import 'package:books_online/core/theme/app_colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CardBookRowWidget extends StatelessWidget {
@@ -40,7 +41,28 @@ class CardBookRowWidget extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.network(coverImageUrl, width: size.width * 0.2, height: size.height * 0.12, fit: BoxFit.fill),
+                child: CachedNetworkImage(
+                  imageUrl: coverImageUrl,
+                  width: size.width * 0.2,
+                  height: size.height * 0.12,
+                  fit: BoxFit.cover,
+
+                  placeholder:
+                      (context, url) => Container(
+                        width: size.width * 0.2,
+                        height: size.height * 0.12,
+                        color: Colors.grey.shade200,
+                        child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                      ),
+
+                  errorWidget:
+                      (context, url, error) => Container(
+                        width: size.width * 0.2,
+                        height: size.height * 0.12,
+                        color: Colors.grey.shade200,
+                        child: const Icon(Icons.menu_book, color: Colors.grey),
+                      ),
+                ),
               ),
 
               // Book information

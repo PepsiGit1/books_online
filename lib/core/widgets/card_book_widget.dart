@@ -1,4 +1,5 @@
 import 'package:books_online/core/theme/app_colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CardBookWidget extends StatelessWidget {
@@ -28,14 +29,27 @@ class CardBookWidget extends StatelessWidget {
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.grey, width: 1)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(11),
-                  child: Image.network(
-                    imageUrl,
-                    width: size.width * 1.0,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    width: size.width * 0.3,
                     height: size.height * 1.0,
-                    fit: BoxFit.fill,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(color: Colors.grey.shade200, child: const Center(child: Icon(Icons.book, size: 40, color: AppColors.grey)));
-                    },
+                    fit: BoxFit.cover,
+
+                    placeholder:
+                        (context, url) => Container(
+                          width: size.width * 0.3,
+                          height: size.height * 1.0,
+                          color: Colors.grey.shade200,
+                          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                        ),
+
+                    errorWidget:
+                        (context, url, error) => Container(
+                          width: size.width * 0.3,
+                          height: size.height * 1.0,
+                          color: Colors.grey.shade200,
+                          child: const Icon(Icons.menu_book, color: Colors.grey),
+                        ),
                   ),
                 ),
               ),
@@ -44,7 +58,7 @@ class CardBookWidget extends StatelessWidget {
             const SizedBox(height: 10),
 
             // Title
-            Text(title, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
 
             const SizedBox(height: 4),
 

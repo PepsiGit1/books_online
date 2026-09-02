@@ -1,18 +1,11 @@
 import 'package:books_online/core/theme/app_colors.dart';
+import 'package:books_online/features/home/data/model/carousel_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
-class CarouselItem {
-  final String title;
-  final String? subtitle;
-  final VoidCallback? onPressed;
-  final String? img;
-
-  const CarouselItem({required this.title, this.subtitle, this.onPressed, this.img});
-}
-
 class AppCarousel extends StatelessWidget {
-  final List<CarouselItem> items;
+  final List<CarouselModel> items;
   final double height;
   final bool autoPlay;
   final Duration autoPlayInterval;
@@ -26,14 +19,12 @@ class AppCarousel extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index, realIndex) {
         final item = items[index];
+
         return Container(
-          width: size.width * 1.0,
-          margin: const EdgeInsets.symmetric(horizontal: 5),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(left: 16, right: 0, top: 0, bottom: 0),
           decoration: BoxDecoration(color: AppColors.cream, borderRadius: BorderRadius.circular(16)),
           child: Row(
             children: [
-              // CONTENT - LEFT
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,19 +32,48 @@ class AppCarousel extends StatelessWidget {
                   children: [
                     Text(item.title, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
 
-                    if (item.subtitle != null) ...[const SizedBox(height: 8), Text(item.subtitle!, maxLines: 2, overflow: TextOverflow.ellipsis)],
+                    if (item.author != null) ...[const SizedBox(height: 8), Text(item.author!, maxLines: 2, overflow: TextOverflow.ellipsis)],
 
                     const SizedBox(height: 16),
 
-                    InkWell(onTap: item.onPressed, child: Text('Read More', style: TextStyle(color: AppColors.caramel, fontWeight: FontWeight.bold))),
+                    InkWell(
+                      onTap: () {
+                        // Navigate to book detail
+                        debugPrint('Book ID: ${item.id}');
+                      },
+                      child: Text('Read More', style: TextStyle(color: AppColors.caramel, fontWeight: FontWeight.bold)),
+                    ),
                   ],
                 ),
               ),
+
               const SizedBox(width: 16),
+
               if (item.img != null)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.network(item.img ?? '', width: size.width * 0.3, height: size.height * 1.0, fit: BoxFit.cover),
+                  child: CachedNetworkImage(
+                    imageUrl: item.img!,
+                    width: size.width * 0.3,
+                    height: size.height * 1.0,
+                    fit: BoxFit.cover,
+
+                    placeholder:
+                        (context, url) => Container(
+                          width: size.width * 0.3,
+                          height: size.height * 1.0,
+                          color: Colors.grey.shade200,
+                          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                        ),
+
+                    errorWidget:
+                        (context, url, error) => Container(
+                          width: size.width * 0.3,
+                          height: size.height * 1.0,
+                          color: Colors.grey.shade200,
+                          child: const Icon(Icons.menu_book, color: Colors.grey),
+                        ),
+                  ),
                 ),
             ],
           ),
@@ -62,14 +82,11 @@ class AppCarousel extends StatelessWidget {
       options: CarouselOptions(
         height: height,
         viewportFraction: 1.0,
-        initialPage: 0,
-        enableInfiniteScroll: true,
         autoPlay: autoPlay,
         autoPlayInterval: autoPlayInterval,
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
         autoPlayCurve: Curves.easeInOut,
         enlargeCenterPage: false,
-        scrollDirection: Axis.horizontal,
       ),
     );
   }

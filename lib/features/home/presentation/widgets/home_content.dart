@@ -17,105 +17,85 @@ class HomeContent extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: AppSearchBar(controller: cubit.searchController), centerTitle: true),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                AppCarousel(
-                  items: [
-                    CarouselItem(
-                      title: 'The APOLOGY',
-                      subtitle: 'Ross Watkins',
-                      onPressed: () {
-                        print('Flutter clicked');
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          final savedBooks = state.allBooks.where((book) => book.isSaved).toList();
+          return SingleChildScrollView(
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    AppCarousel(items: state.carousels),
+                    const SizedBox(height: 20),
+                    CategoryWidget(
+                      categories: state.categories,
+                      selectedIndex: state.categories.indexWhere((category) => category.id == state.selectedCategoryId),
+                      onSelected: (index) {
+                        final category = state.categories[index];
+                        context.read<HomeCubit>().selectCategory(category.id);
                       },
-                      img: "https://d3f44jafdqsrtg.cloudfront.net/books/THE-APOLOGY.jpg",
                     ),
-                    CarouselItem(
-                      title: 'Across the Street from Wall Street',
-                      subtitle: 'Dave Gretta',
-                      onPressed: () {
-                        print('Dart clicked');
-                      },
-                      img: "https://nighttradingbook.com/wp-content/uploads/2024/09/WALL_STREET_BOOK_IMAGE-01.png",
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      height: size.height * 0.38,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: state.book.length,
+                        separatorBuilder: (_, __) => const SizedBox(width: 10),
+                        itemBuilder: (context, index) {
+                          final book = state.book.isNotEmpty ? state.book[index] : null;
+                          return CardBookWidget(
+                            imageUrl: book?.coverImageUrl ?? '',
+                            title: book?.title ?? '',
+                            author: book?.author ?? '',
+                            rating: book?.rating ?? 0,
+                            onPressed: () {
+                              print('Book $index clicked');
+                            },
+                          );
+                        },
+                      ),
                     ),
-                    CarouselItem(
-                      title: 'The Elephants Apology',
-                      subtitle: 'Alice Talwin Morris',
-                      onPressed: () {
-                        print('Architecture clicked');
-                      },
-                      img: "https://i.ebayimg.com/images/g/nawAAeSwARZnsFta/s-l1200.jpg",
+                    SizedBox(height: 20),
+                    Text("Continue Reading", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 20),
+                    SizedBox(
+                      height: size.height * 0.12,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: savedBooks.length,
+                        separatorBuilder: (_, __) => const SizedBox(width: 20),
+                        itemBuilder: (context, index) {
+                          final book = savedBooks[index];
+                          return CardBookRowWidget(
+                            title: book.title,
+                            author: book.author ?? '',
+                            coverImageUrl: book.coverImageUrl ?? '',
+                            rating: book.rating ?? 0,
+                            progress: book.progress ?? 0,
+                            isPremium: book.isPremium,
+                            isSaved: book.isSaved,
+                            onBookmarkTap: () {
+                              debugPrint('Bookmark tapped for book ${book.id}');
+                            },
+                            onTap: () {
+                              debugPrint('Book ${book.id} tapped');
+                            },
+                          );
+                        },
+                      ),
                     ),
+                    SizedBox(height: 20),
                   ],
                 ),
-                const SizedBox(height: 20),
-                CategoryWidget(
-                  categories: const ['All', 'Fiction', 'Romance', 'Science', 'History', 'Technology'],
-                  selectedIndex: 0,
-                  onSelected: (index) {
-                    print('Selected: $index');
-                  },
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: size.height * 0.38,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    separatorBuilder: (_, __) => const SizedBox(width: 10),
-                    itemBuilder: (context, index) {
-                      return CardBookWidget(
-                        imageUrl:
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOTl8C5uegu9JKL959rk3pbNgiB7cwrXAbKRrWY4lJPCyfzD-eErf8gZq6&s=10',
-                        title: 'The Psychology of Money',
-                        author: 'Morgan Housel',
-                        rating: 4.8,
-                        onPressed: () {
-                          print('Book $index clicked');
-                        },
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 20),
-                Text("Continue Reading", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                SizedBox(height: 20),
-                SizedBox(
-                  height: size.height * 0.12,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 5,
-                    separatorBuilder: (_, __) => const SizedBox(width: 20),
-                    itemBuilder: (context, index) {
-                      return CardBookRowWidget(
-                        title: 'Think and Grow Rich',
-                        author: 'Napoleon Hill',
-                        coverImageUrl: 'https://kitabcorner.in/wp-content/uploads/2024/02/think-and-grow-rich-book-online-at-Kitab-Corner-1.webp',
-                        rating: 3,
-                        progress: 0.1,
-                        isPremium: true,
-                        isSaved: true,
-                        onBookmarkTap: () {
-                          print('Bookmark tapped for book $index');
-                        },
-                        onTap: () {
-                          print('Book $index tapped');
-                        },
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 20),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

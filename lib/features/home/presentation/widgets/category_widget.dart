@@ -1,7 +1,8 @@
+import 'package:books_online/features/home/data/model/book_category_model.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
-  final List<String> categories;
+  final List<CategoryModel> categories;
   final int selectedIndex;
   final ValueChanged<int>? onSelected;
 
@@ -29,7 +30,7 @@ class CategoryWidget extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  categories[index],
+                  categories[index].name,
                   style: TextStyle(color: isSelected ? Colors.white : Colors.black87, fontWeight: isSelected ? FontWeight.bold : FontWeight.normal),
                 ),
               ),
