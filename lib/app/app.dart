@@ -12,11 +12,7 @@ class App extends StatelessWidget {
     final router = AppRouter();
 
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => HomeCubit(),
-        ),
-      ],
+      providers: [BlocProvider(create: (context) => HomeCubit())],
       child: MaterialApp(
         title: 'Books Online',
         theme: AppTheme.light(),
