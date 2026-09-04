@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:books_online/core/routing/router.dart';
 import 'package:books_online/core/widgets/card_book_row_widget.dart';
 import 'package:books_online/core/widgets/card_book_widget.dart';
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart';
@@ -53,6 +55,8 @@ class HomeContent extends StatelessWidget {
                             author: book?.author ?? '',
                             rating: book?.rating ?? 0,
                             onPressed: () {
+                              context.router.push(HomeDetailRoute(id: book?.id ?? 0));
+
                               print('Book $index clicked');
                             },
                           );

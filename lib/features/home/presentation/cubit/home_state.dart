@@ -11,5 +11,11 @@ class HomeState with _$HomeState {
     @Default([]) List<CarouselModel> carousels,
     @Default([]) List<CategoryModel> categories,
     @Default(0) int selectedCategoryId,
+    @Default(Duration.zero) Duration position,
+    @Default(Duration.zero) Duration duration,
+    @Default(false) bool playing,
+    @Default(false) bool isAudioLoading,
+    @Default([]) List<TextSegment> segments,
+    AudioBookModel? audioBook,
   }) = _HomeState;
 }

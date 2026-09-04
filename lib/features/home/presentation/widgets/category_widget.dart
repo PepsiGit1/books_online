@@ -1,3 +1,4 @@
+import 'package:books_online/core/theme/app_colors.dart';
 import 'package:books_online/features/home/data/model/book_category_model.dart';
 import 'package:flutter/material.dart';
 
@@ -24,10 +25,7 @@ class CategoryWidget extends StatelessWidget {
             onTap: () => onSelected?.call(index),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFFC08552) : const Color(0xFFF5E9D8),
-                borderRadius: BorderRadius.circular(20),
-              ),
+              decoration: BoxDecoration(color: isSelected ? AppColors.bronze : AppColors.white, borderRadius: BorderRadius.circular(20)),
               child: Center(
                 child: Text(
                   categories[index].name,

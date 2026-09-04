@@ -12,7 +12,6 @@ class CategoryTabsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
     return SizedBox(
       height: 44,

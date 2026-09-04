@@ -1,5 +1,7 @@
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart';
 import 'package:books_online/features/home/presentation/widgets/home_content.dart';
+import 'package:books_online/features/search/presentation/cubit/search_cubit.dart';
+import 'package:books_online/features/search/presentation/page/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../core/routing/router.dart';
@@ -13,7 +15,10 @@ class App extends StatelessWidget {
     final _appRouter = AppRouter();
 
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => HomeCubit(), child: HomeContent())],
+      providers: [
+        BlocProvider(create: (context) => HomeCubit(), child: HomeContent()),
+        BlocProvider(create: (context) => SearchCubit(), child: SearchPage()),
+      ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Books Online',

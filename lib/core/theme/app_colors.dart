@@ -40,4 +40,5 @@ class AppColors {
   static const Color bronze = Color(0xFFC08552);
   static const Color bookBrown = Color(0xFFC08552);
   static const Color cream = Color(0xFFF5E9D8);
+  static const Color creamLight = Color(0xFFF5F3EA);
 }

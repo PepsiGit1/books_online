@@ -25,6 +25,12 @@ mixin _$HomeState {
   List<CarouselModel> get carousels => throw _privateConstructorUsedError;
   List<CategoryModel> get categories => throw _privateConstructorUsedError;
   int get selectedCategoryId => throw _privateConstructorUsedError;
+  Duration get position => throw _privateConstructorUsedError;
+  Duration get duration => throw _privateConstructorUsedError;
+  bool get playing => throw _privateConstructorUsedError;
+  bool get isAudioLoading => throw _privateConstructorUsedError;
+  List<TextSegment> get segments => throw _privateConstructorUsedError;
+  AudioBookModel? get audioBook => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -47,7 +53,15 @@ abstract class $HomeStateCopyWith<$Res> {
     List<CarouselModel> carousels,
     List<CategoryModel> categories,
     int selectedCategoryId,
+    Duration position,
+    Duration duration,
+    bool playing,
+    bool isAudioLoading,
+    List<TextSegment> segments,
+    AudioBookModel? audioBook,
   });
+
+  $AudioBookModelCopyWith<$Res>? get audioBook;
 }
 
 /// @nodoc
@@ -73,6 +87,12 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? carousels = null,
     Object? categories = null,
     Object? selectedCategoryId = null,
+    Object? position = null,
+    Object? duration = null,
+    Object? playing = null,
+    Object? isAudioLoading = null,
+    Object? segments = null,
+    Object? audioBook = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -116,9 +136,53 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                     ? _value.selectedCategoryId
                     : selectedCategoryId // ignore: cast_nullable_to_non_nullable
                         as int,
+            position:
+                null == position
+                    ? _value.position
+                    : position // ignore: cast_nullable_to_non_nullable
+                        as Duration,
+            duration:
+                null == duration
+                    ? _value.duration
+                    : duration // ignore: cast_nullable_to_non_nullable
+                        as Duration,
+            playing:
+                null == playing
+                    ? _value.playing
+                    : playing // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            isAudioLoading:
+                null == isAudioLoading
+                    ? _value.isAudioLoading
+                    : isAudioLoading // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            segments:
+                null == segments
+                    ? _value.segments
+                    : segments // ignore: cast_nullable_to_non_nullable
+                        as List<TextSegment>,
+            audioBook:
+                freezed == audioBook
+                    ? _value.audioBook
+                    : audioBook // ignore: cast_nullable_to_non_nullable
+                        as AudioBookModel?,
           )
           as $Val,
     );
+  }
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $AudioBookModelCopyWith<$Res>? get audioBook {
+    if (_value.audioBook == null) {
+      return null;
+    }
+
+    return $AudioBookModelCopyWith<$Res>(_value.audioBook!, (value) {
+      return _then(_value.copyWith(audioBook: value) as $Val);
+    });
   }
 }
 
@@ -140,7 +204,16 @@ abstract class _$$HomeStateImplCopyWith<$Res>
     List<CarouselModel> carousels,
     List<CategoryModel> categories,
     int selectedCategoryId,
+    Duration position,
+    Duration duration,
+    bool playing,
+    bool isAudioLoading,
+    List<TextSegment> segments,
+    AudioBookModel? audioBook,
   });
+
+  @override
+  $AudioBookModelCopyWith<$Res>? get audioBook;
 }
 
 /// @nodoc
@@ -165,6 +238,12 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? carousels = null,
     Object? categories = null,
     Object? selectedCategoryId = null,
+    Object? position = null,
+    Object? duration = null,
+    Object? playing = null,
+    Object? isAudioLoading = null,
+    Object? segments = null,
+    Object? audioBook = freezed,
   }) {
     return _then(
       _$HomeStateImpl(
@@ -208,6 +287,36 @@ class __$$HomeStateImplCopyWithImpl<$Res>
                 ? _value.selectedCategoryId
                 : selectedCategoryId // ignore: cast_nullable_to_non_nullable
                     as int,
+        position:
+            null == position
+                ? _value.position
+                : position // ignore: cast_nullable_to_non_nullable
+                    as Duration,
+        duration:
+            null == duration
+                ? _value.duration
+                : duration // ignore: cast_nullable_to_non_nullable
+                    as Duration,
+        playing:
+            null == playing
+                ? _value.playing
+                : playing // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isAudioLoading:
+            null == isAudioLoading
+                ? _value.isAudioLoading
+                : isAudioLoading // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        segments:
+            null == segments
+                ? _value._segments
+                : segments // ignore: cast_nullable_to_non_nullable
+                    as List<TextSegment>,
+        audioBook:
+            freezed == audioBook
+                ? _value.audioBook
+                : audioBook // ignore: cast_nullable_to_non_nullable
+                    as AudioBookModel?,
       ),
     );
   }
@@ -225,10 +334,17 @@ class _$HomeStateImpl implements _HomeState {
     final List<CarouselModel> carousels = const [],
     final List<CategoryModel> categories = const [],
     this.selectedCategoryId = 0,
+    this.position = Duration.zero,
+    this.duration = Duration.zero,
+    this.playing = false,
+    this.isAudioLoading = false,
+    final List<TextSegment> segments = const [],
+    this.audioBook,
   }) : _allBooks = allBooks,
        _book = book,
        _carousels = carousels,
-       _categories = categories;
+       _categories = categories,
+       _segments = segments;
 
   @override
   @JsonKey()
@@ -278,10 +394,33 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final int selectedCategoryId;
+  @override
+  @JsonKey()
+  final Duration position;
+  @override
+  @JsonKey()
+  final Duration duration;
+  @override
+  @JsonKey()
+  final bool playing;
+  @override
+  @JsonKey()
+  final bool isAudioLoading;
+  final List<TextSegment> _segments;
+  @override
+  @JsonKey()
+  List<TextSegment> get segments {
+    if (_segments is EqualUnmodifiableListView) return _segments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_segments);
+  }
+
+  @override
+  final AudioBookModel? audioBook;
 
   @override
   String toString() {
-    return 'HomeState(status: $status, mess: $mess, currentIndex: $currentIndex, allBooks: $allBooks, book: $book, carousels: $carousels, categories: $categories, selectedCategoryId: $selectedCategoryId)';
+    return 'HomeState(status: $status, mess: $mess, currentIndex: $currentIndex, allBooks: $allBooks, book: $book, carousels: $carousels, categories: $categories, selectedCategoryId: $selectedCategoryId, position: $position, duration: $duration, playing: $playing, isAudioLoading: $isAudioLoading, segments: $segments, audioBook: $audioBook)';
   }
 
   @override
@@ -304,7 +443,17 @@ class _$HomeStateImpl implements _HomeState {
               _categories,
             ) &&
             (identical(other.selectedCategoryId, selectedCategoryId) ||
-                other.selectedCategoryId == selectedCategoryId));
+                other.selectedCategoryId == selectedCategoryId) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
+            (identical(other.duration, duration) ||
+                other.duration == duration) &&
+            (identical(other.playing, playing) || other.playing == playing) &&
+            (identical(other.isAudioLoading, isAudioLoading) ||
+                other.isAudioLoading == isAudioLoading) &&
+            const DeepCollectionEquality().equals(other._segments, _segments) &&
+            (identical(other.audioBook, audioBook) ||
+                other.audioBook == audioBook));
   }
 
   @override
@@ -318,6 +467,12 @@ class _$HomeStateImpl implements _HomeState {
     const DeepCollectionEquality().hash(_carousels),
     const DeepCollectionEquality().hash(_categories),
     selectedCategoryId,
+    position,
+    duration,
+    playing,
+    isAudioLoading,
+    const DeepCollectionEquality().hash(_segments),
+    audioBook,
   );
 
   /// Create a copy of HomeState
@@ -339,6 +494,12 @@ abstract class _HomeState implements HomeState {
     final List<CarouselModel> carousels,
     final List<CategoryModel> categories,
     final int selectedCategoryId,
+    final Duration position,
+    final Duration duration,
+    final bool playing,
+    final bool isAudioLoading,
+    final List<TextSegment> segments,
+    final AudioBookModel? audioBook,
   }) = _$HomeStateImpl;
 
   @override
@@ -357,6 +518,18 @@ abstract class _HomeState implements HomeState {
   List<CategoryModel> get categories;
   @override
   int get selectedCategoryId;
+  @override
+  Duration get position;
+  @override
+  Duration get duration;
+  @override
+  bool get playing;
+  @override
+  bool get isAudioLoading;
+  @override
+  List<TextSegment> get segments;
+  @override
+  AudioBookModel? get audioBook;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

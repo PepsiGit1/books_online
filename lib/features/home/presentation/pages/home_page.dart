@@ -31,10 +31,34 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
     );
   }
 
-  static const List<Widget> pages = [HomeContent(), SearchPage(), Center(child: Text('Favorites')), Center(child: Text('Profile'))];
+  static const List<Widget> pages = [HomeContent(), SearchPage(), Center(child: Text('favor')), Center(child: Text('Profile'))];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(centerTitle: true), body: const HomeContent());
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColors.white,
+
+          body: pages[state.currentIndex],
+
+          bottomNavigationBar: SalomonBottomBar(
+            currentIndex: state.currentIndex,
+            onTap: (index) {
+              context.read<HomeCubit>().changePage(index);
+            },
+            items: [
+              SalomonBottomBarItem(icon: const Icon(Icons.home), title: const Text('Home'), selectedColor: AppColors.primary),
+
+              SalomonBottomBarItem(icon: const Icon(Icons.search), title: const Text('Search'), selectedColor: Colors.orange),
+
+              SalomonBottomBarItem(icon: const Icon(Icons.favorite_border), title: const Text('Likes'), selectedColor: Colors.pink),
+
+              SalomonBottomBarItem(icon: const Icon(Icons.person), title: const Text('Profile'), selectedColor: Colors.teal),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

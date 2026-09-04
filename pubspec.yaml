@@ -28,6 +28,8 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   get_it: ^8.3.0
   cached_network_image: ^3.4.1
+  just_audio: ^0.10.6
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_test:
@@ -44,3 +46,5 @@ flutter:
   uses-material-design: true
   assets:
     - .env
+    - assets/audio/
+    - assets/subtitles/
