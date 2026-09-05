@@ -87,7 +87,7 @@ class HomeContent extends StatelessWidget {
                               debugPrint('Bookmark tapped for book ${book.id}');
                             },
                             onTap: () {
-                              debugPrint('Book ${book.id} tapped');
+                              context.router.push(HomeDetailRoute(book: book));
                             },
                           );
                         },

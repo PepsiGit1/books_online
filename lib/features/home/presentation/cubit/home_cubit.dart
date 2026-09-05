@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:books_online/core/api/api_client.dart';
+import 'package:books_online/core/config/config.dart';
 import 'package:books_online/core/enum/status.dart';
 import 'package:books_online/core/utils/str_parser.dart';
 import 'package:books_online/features/home/data/model/book_category_model.dart';
@@ -8,11 +10,14 @@ import 'package:books_online/features/home/data/model/create_paypal_order_model.
 import 'package:books_online/features/home/data/model/text_segment.dart';
 import 'package:books_online/features/home/domain/entity/paypal_order_extensions.dart';
 import 'package:books_online/features/home/domain/usecase/create_paypal_order.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'home_state.dart';
@@ -138,6 +143,35 @@ class HomeCubit extends Cubit<HomeState> {
       }
     } catch (e) {
       emit(state.copyWith(status: Status.failure, mess: e.toString()));
+    }
+  }
+
+  Future<void> shareText(BookModel book) async {
+    try {
+      String? localImagePath;
+
+      if (book.coverImageUrl != null) {
+        final dir = await getTemporaryDirectory();
+        final fileName = '${book.productId}_cover.jpg';
+        final filePath = '${dir.path}/$fileName';
+
+        final apiClient = getIt<ApiClient>();
+        await apiClient.dio.download(book.coverImageUrl!, filePath);
+        localImagePath = filePath;
+      }
+
+      final params = ShareParams(
+        text: 'Check out "${book.title}"${book.author != null ? ' by ${book.author}' : ''}!',
+        files: localImagePath != null ? [XFile(localImagePath)] : null,
+      );
+
+      final result = await SharePlus.instance.share(params);
+
+      if (result.status == ShareResultStatus.success) {
+        return;
+      }
+    } catch (e) {
+      print('Error sharing: $e');
     }
   }
 
