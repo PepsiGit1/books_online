@@ -10,7 +10,6 @@ import 'package:books_online/features/home/data/model/create_paypal_order_model.
 import 'package:books_online/features/home/data/model/text_segment.dart';
 import 'package:books_online/features/home/domain/entity/paypal_order_extensions.dart';
 import 'package:books_online/features/home/domain/usecase/create_paypal_order.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
