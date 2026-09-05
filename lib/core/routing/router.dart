@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/home/presentation/pages/home_detail.dart';
 import 'package:books_online/features/home/presentation/pages/home_page.dart';
 import 'package:books_online/features/search/presentation/page/search.dart';

@@ -54,10 +54,10 @@ class HomeContent extends StatelessWidget {
                             title: book?.title ?? '',
                             author: book?.author ?? '',
                             rating: book?.rating ?? 0,
+                            isPremier: book?.isPremium,
                             onPressed: () {
-                              context.router.push(HomeDetailRoute(id: book?.id ?? 0));
-
-                              print('Book $index clicked');
+                              if (book == null) return;
+                              context.router.push(HomeDetailRoute(book: book));
                             },
                           );
                         },

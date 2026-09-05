@@ -30,7 +30,10 @@ mixin _$HomeState {
   bool get playing => throw _privateConstructorUsedError;
   bool get isAudioLoading => throw _privateConstructorUsedError;
   List<TextSegment> get segments => throw _privateConstructorUsedError;
-  AudioBookModel? get audioBook => throw _privateConstructorUsedError;
+  BookModel? get audioBook => throw _privateConstructorUsedError; // Payment
+  bool get isPurchasing => throw _privateConstructorUsedError;
+  bool get purchaseSuccess => throw _privateConstructorUsedError;
+  String? get purchaseProductId => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -58,10 +61,13 @@ abstract class $HomeStateCopyWith<$Res> {
     bool playing,
     bool isAudioLoading,
     List<TextSegment> segments,
-    AudioBookModel? audioBook,
+    BookModel? audioBook,
+    bool isPurchasing,
+    bool purchaseSuccess,
+    String? purchaseProductId,
   });
 
-  $AudioBookModelCopyWith<$Res>? get audioBook;
+  $BookModelCopyWith<$Res>? get audioBook;
 }
 
 /// @nodoc
@@ -93,6 +99,9 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? isAudioLoading = null,
     Object? segments = null,
     Object? audioBook = freezed,
+    Object? isPurchasing = null,
+    Object? purchaseSuccess = null,
+    Object? purchaseProductId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -165,7 +174,22 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                 freezed == audioBook
                     ? _value.audioBook
                     : audioBook // ignore: cast_nullable_to_non_nullable
-                        as AudioBookModel?,
+                        as BookModel?,
+            isPurchasing:
+                null == isPurchasing
+                    ? _value.isPurchasing
+                    : isPurchasing // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            purchaseSuccess:
+                null == purchaseSuccess
+                    ? _value.purchaseSuccess
+                    : purchaseSuccess // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            purchaseProductId:
+                freezed == purchaseProductId
+                    ? _value.purchaseProductId
+                    : purchaseProductId // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -175,12 +199,12 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AudioBookModelCopyWith<$Res>? get audioBook {
+  $BookModelCopyWith<$Res>? get audioBook {
     if (_value.audioBook == null) {
       return null;
     }
 
-    return $AudioBookModelCopyWith<$Res>(_value.audioBook!, (value) {
+    return $BookModelCopyWith<$Res>(_value.audioBook!, (value) {
       return _then(_value.copyWith(audioBook: value) as $Val);
     });
   }
@@ -209,11 +233,14 @@ abstract class _$$HomeStateImplCopyWith<$Res>
     bool playing,
     bool isAudioLoading,
     List<TextSegment> segments,
-    AudioBookModel? audioBook,
+    BookModel? audioBook,
+    bool isPurchasing,
+    bool purchaseSuccess,
+    String? purchaseProductId,
   });
 
   @override
-  $AudioBookModelCopyWith<$Res>? get audioBook;
+  $BookModelCopyWith<$Res>? get audioBook;
 }
 
 /// @nodoc
@@ -244,6 +271,9 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? isAudioLoading = null,
     Object? segments = null,
     Object? audioBook = freezed,
+    Object? isPurchasing = null,
+    Object? purchaseSuccess = null,
+    Object? purchaseProductId = freezed,
   }) {
     return _then(
       _$HomeStateImpl(
@@ -316,7 +346,22 @@ class __$$HomeStateImplCopyWithImpl<$Res>
             freezed == audioBook
                 ? _value.audioBook
                 : audioBook // ignore: cast_nullable_to_non_nullable
-                    as AudioBookModel?,
+                    as BookModel?,
+        isPurchasing:
+            null == isPurchasing
+                ? _value.isPurchasing
+                : isPurchasing // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        purchaseSuccess:
+            null == purchaseSuccess
+                ? _value.purchaseSuccess
+                : purchaseSuccess // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        purchaseProductId:
+            freezed == purchaseProductId
+                ? _value.purchaseProductId
+                : purchaseProductId // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }
@@ -340,6 +385,9 @@ class _$HomeStateImpl implements _HomeState {
     this.isAudioLoading = false,
     final List<TextSegment> segments = const [],
     this.audioBook,
+    this.isPurchasing = false,
+    this.purchaseSuccess = false,
+    this.purchaseProductId,
   }) : _allBooks = allBooks,
        _book = book,
        _carousels = carousels,
@@ -416,11 +464,20 @@ class _$HomeStateImpl implements _HomeState {
   }
 
   @override
-  final AudioBookModel? audioBook;
+  final BookModel? audioBook;
+  // Payment
+  @override
+  @JsonKey()
+  final bool isPurchasing;
+  @override
+  @JsonKey()
+  final bool purchaseSuccess;
+  @override
+  final String? purchaseProductId;
 
   @override
   String toString() {
-    return 'HomeState(status: $status, mess: $mess, currentIndex: $currentIndex, allBooks: $allBooks, book: $book, carousels: $carousels, categories: $categories, selectedCategoryId: $selectedCategoryId, position: $position, duration: $duration, playing: $playing, isAudioLoading: $isAudioLoading, segments: $segments, audioBook: $audioBook)';
+    return 'HomeState(status: $status, mess: $mess, currentIndex: $currentIndex, allBooks: $allBooks, book: $book, carousels: $carousels, categories: $categories, selectedCategoryId: $selectedCategoryId, position: $position, duration: $duration, playing: $playing, isAudioLoading: $isAudioLoading, segments: $segments, audioBook: $audioBook, isPurchasing: $isPurchasing, purchaseSuccess: $purchaseSuccess, purchaseProductId: $purchaseProductId)';
   }
 
   @override
@@ -453,7 +510,13 @@ class _$HomeStateImpl implements _HomeState {
                 other.isAudioLoading == isAudioLoading) &&
             const DeepCollectionEquality().equals(other._segments, _segments) &&
             (identical(other.audioBook, audioBook) ||
-                other.audioBook == audioBook));
+                other.audioBook == audioBook) &&
+            (identical(other.isPurchasing, isPurchasing) ||
+                other.isPurchasing == isPurchasing) &&
+            (identical(other.purchaseSuccess, purchaseSuccess) ||
+                other.purchaseSuccess == purchaseSuccess) &&
+            (identical(other.purchaseProductId, purchaseProductId) ||
+                other.purchaseProductId == purchaseProductId));
   }
 
   @override
@@ -473,6 +536,9 @@ class _$HomeStateImpl implements _HomeState {
     isAudioLoading,
     const DeepCollectionEquality().hash(_segments),
     audioBook,
+    isPurchasing,
+    purchaseSuccess,
+    purchaseProductId,
   );
 
   /// Create a copy of HomeState
@@ -499,7 +565,10 @@ abstract class _HomeState implements HomeState {
     final bool playing,
     final bool isAudioLoading,
     final List<TextSegment> segments,
-    final AudioBookModel? audioBook,
+    final BookModel? audioBook,
+    final bool isPurchasing,
+    final bool purchaseSuccess,
+    final String? purchaseProductId,
   }) = _$HomeStateImpl;
 
   @override
@@ -529,7 +598,13 @@ abstract class _HomeState implements HomeState {
   @override
   List<TextSegment> get segments;
   @override
-  AudioBookModel? get audioBook;
+  BookModel? get audioBook; // Payment
+  @override
+  bool get isPurchasing;
+  @override
+  bool get purchaseSuccess;
+  @override
+  String? get purchaseProductId;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

@@ -30,6 +30,10 @@ dependencies:
   cached_network_image: ^3.4.1
   just_audio: ^0.10.6
   rxdart: ^0.28.0
+  in_app_purchase: ^3.2.3
+  url_launcher: ^6.3.2
+  collection: ^1.19.1
+  modal_bottom_sheet: ^3.0.0
 
 dev_dependencies:
   flutter_test:

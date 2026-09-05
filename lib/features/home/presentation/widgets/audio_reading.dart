@@ -1,12 +1,13 @@
+import 'package:books_online/core/config/config.dart';
 import 'package:books_online/core/theme/app_colors.dart';
 import 'package:books_online/core/utils/format_duration.dart';
-import 'package:books_online/features/home/data/model/audio_book_model.dart';
+import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AudioReadingSync extends StatelessWidget {
-  final AudioBookModel book;
+  final BookModel book;
 
   const AudioReadingSync({super.key, required this.book});
 
@@ -14,7 +15,7 @@ class AudioReadingSync extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return BlocProvider(
-      create: (_) => HomeCubit()..loadBook(book),
+      create: (_) => getIt<HomeCubit>()..loadBook(book),
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           final cubit = context.read<HomeCubit>();
@@ -27,7 +28,7 @@ class AudioReadingSync extends StatelessWidget {
 
           return Column(
             children: [
-              Text(book.author, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+              Text(book.author ?? "", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(24),

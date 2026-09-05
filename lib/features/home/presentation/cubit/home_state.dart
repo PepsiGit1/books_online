@@ -16,6 +16,11 @@ class HomeState with _$HomeState {
     @Default(false) bool playing,
     @Default(false) bool isAudioLoading,
     @Default([]) List<TextSegment> segments,
-    AudioBookModel? audioBook,
+    BookModel? audioBook,
+
+    // Payment
+    @Default(false) bool isPurchasing,
+    @Default(false) bool purchaseSuccess,
+    String? purchaseProductId,
   }) = _HomeState;
 }

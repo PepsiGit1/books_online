@@ -1,23 +1,27 @@
 import 'package:bloc/bloc.dart';
 import 'package:books_online/core/enum/status.dart';
 import 'package:books_online/core/utils/str_parser.dart';
-import 'package:books_online/features/home/data/model/audio_book_model.dart';
 import 'package:books_online/features/home/data/model/book_category_model.dart';
 import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/home/data/model/carousel_model.dart';
+import 'package:books_online/features/home/data/model/create_paypal_order_model.dart';
 import 'package:books_online/features/home/data/model/text_segment.dart';
+import 'package:books_online/features/home/domain/entity/paypal_order_extensions.dart';
+import 'package:books_online/features/home/domain/usecase/create_paypal_order.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:url_launcher/url_launcher.dart';
 
 part 'home_state.dart';
 part 'home_cubit.freezed.dart';
 
 @injectable
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeState());
+  final CreatePaypalOrder _paymentRepository;
+  HomeCubit(this._paymentRepository) : super(HomeState());
 
   final TextEditingController searchController = TextEditingController();
   final AudioPlayer _player = AudioPlayer();
@@ -98,7 +102,7 @@ class HomeCubit extends Cubit<HomeState> {
     _player.seek(Duration(seconds: seconds.toInt()));
   }
 
-  Future<void> loadBook(AudioBookModel book) async {
+  Future<void> loadBook(BookModel book) async {
     emit(state.copyWith(audioBook: book, isAudioLoading: true));
 
     // Load audio
@@ -110,6 +114,31 @@ class HomeCubit extends Cubit<HomeState> {
     final segments = SrtParser.parse(subtitleContent);
 
     emit(state.copyWith(audioBook: book, segments: segments, isAudioLoading: false));
+  }
+
+  Future<void> createPaymentPayPal(CreatePaypalOrderModel paypal) async {
+    emit(state.copyWith(status: Status.loading));
+
+    try {
+      final order = await _paymentRepository(
+        value: paypal.value,
+        referenceId: paypal.referenceId,
+        description: paypal.description,
+        customId: paypal.customId,
+      );
+
+      emit(state.copyWith(status: Status.success, mess: 'Order created: ${order.id}'));
+
+      final approveUrl = order.approveUrl;
+      if (approveUrl != null) {
+        final uri = Uri.parse(approveUrl);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.inAppWebView);
+        }
+      }
+    } catch (e) {
+      emit(state.copyWith(status: Status.failure, mess: e.toString()));
+    }
   }
 
   @override

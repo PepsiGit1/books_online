@@ -13,12 +13,15 @@ part of 'router.dart';
 /// generated route for
 /// [HomeDetailPage]
 class HomeDetailRoute extends PageRouteInfo<HomeDetailRouteArgs> {
-  HomeDetailRoute({Key? key, required int id, List<PageRouteInfo>? children})
-    : super(
-        HomeDetailRoute.name,
-        args: HomeDetailRouteArgs(key: key, id: id),
-        initialChildren: children,
-      );
+  HomeDetailRoute({
+    Key? key,
+    required BookModel book,
+    List<PageRouteInfo>? children,
+  }) : super(
+         HomeDetailRoute.name,
+         args: HomeDetailRouteArgs(key: key, book: book),
+         initialChildren: children,
+       );
 
   static const String name = 'HomeDetailRoute';
 
@@ -26,21 +29,21 @@ class HomeDetailRoute extends PageRouteInfo<HomeDetailRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<HomeDetailRouteArgs>();
-      return HomeDetailPage(key: args.key, id: args.id);
+      return HomeDetailPage(key: args.key, book: args.book);
     },
   );
 }
 
 class HomeDetailRouteArgs {
-  const HomeDetailRouteArgs({this.key, required this.id});
+  const HomeDetailRouteArgs({this.key, required this.book});
 
   final Key? key;
 
-  final int id;
+  final BookModel book;
 
   @override
   String toString() {
-    return 'HomeDetailRouteArgs{key: $key, id: $id}';
+    return 'HomeDetailRouteArgs{key: $key, book: $book}';
   }
 }
 

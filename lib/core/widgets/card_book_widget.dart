@@ -8,8 +8,17 @@ class CardBookWidget extends StatelessWidget {
   final String author;
   final VoidCallback? onPressed;
   final double rating;
+  final bool? isPremier;
 
-  const CardBookWidget({super.key, required this.imageUrl, required this.title, required this.author, this.onPressed, required this.rating});
+  const CardBookWidget({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.author,
+    this.onPressed,
+    required this.rating,
+    this.isPremier,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,33 +34,43 @@ class CardBookWidget extends StatelessWidget {
             // Book cover
             AspectRatio(
               aspectRatio: 0.7,
-              child: Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.grey, width: 1)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(11),
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    width: size.width * 0.3,
-                    height: size.height * 1.0,
-                    fit: BoxFit.cover,
-
-                    placeholder:
-                        (context, url) => Container(
-                          width: size.width * 0.3,
-                          height: size.height * 1.0,
-                          color: Colors.grey.shade200,
-                          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                        ),
-
-                    errorWidget:
-                        (context, url, error) => Container(
-                          width: size.width * 0.3,
-                          height: size.height * 1.0,
-                          color: Colors.grey.shade200,
-                          child: const Icon(Icons.menu_book, color: Colors.grey),
-                        ),
+              child: Stack(
+                children: [
+                  // Cover image
+                  Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(color: AppColors.grey, width: 1)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(11),
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                        placeholder:
+                            (context, url) =>
+                                Container(color: Colors.grey.shade200, child: const Center(child: CircularProgressIndicator(strokeWidth: 2))),
+                        errorWidget:
+                            (context, url, error) => Container(color: Colors.grey.shade200, child: const Icon(Icons.menu_book, color: Colors.grey)),
+                      ),
+                    ),
                   ),
-                ),
+
+                  // Premium icon
+                  if (isPremier == true)
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: Container(
+                        padding: const EdgeInsets.all(7),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 6, offset: const Offset(0, 2))],
+                        ),
+                        child: const Icon(Icons.workspace_premium_rounded, color: Color(0xFFD4AF37), size: 22),
+                      ),
+                    ),
+                ],
               ),
             ),
 
