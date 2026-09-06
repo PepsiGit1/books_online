@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:books_online/core/config/config.dart';
+import 'package:books_online/core/constants/api_endpoints.dart';
 import 'package:books_online/core/theme/app_colors.dart';
 import 'package:books_online/core/utils/format_duration.dart';
 import 'package:books_online/core/widgets/bottom_sheet.dart';
@@ -15,7 +16,7 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
   final BookModel book;
   @override
   Widget wrappedRoute(BuildContext context) {
-    return MultiBlocProvider(providers: [BlocProvider(create: (_) => getIt<HomeCubit>()..loadBook(book))], child: this);
+    return MultiBlocProvider(providers: [BlocProvider(create: (_) => getIt<HomeCubit>()..loadBookDetail(book))], child: this);
   }
 
   const HomeDetailPage({super.key, required this.book});
@@ -96,7 +97,7 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(4),
                                           child: Image.network(
-                                            book.coverImageUrl ?? '',
+                                            '${ApiEndpoints.baseUrl}${book.coverImageUrl ?? ''}',
                                             fit: BoxFit.cover,
                                             errorBuilder: (_, __, ___) {
                                               return Container(color: Colors.grey.shade300, child: const Icon(Icons.book, size: 50));

@@ -1,3 +1,4 @@
+import 'package:books_online/features/home/data/model/book_category_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'book_model.freezed.dart';
@@ -19,6 +20,7 @@ class BookModel with _$BookModel {
     @Default(0.0) double price,
     @Default("") String audioUrl,
     @Default("") String subtitleUrl,
+    CategoryModel? category,
   }) = _BookModel;
 
   factory BookModel.fromJson(Map<String, dynamic> json) => _$BookModelFromJson(json);

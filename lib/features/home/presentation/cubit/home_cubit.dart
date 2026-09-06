@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:books_online/core/api/api_client.dart';
 import 'package:books_online/core/config/config.dart';
+import 'package:books_online/core/constants/api_endpoints.dart';
 import 'package:books_online/core/enum/status.dart';
 import 'package:books_online/core/utils/str_parser.dart';
 import 'package:books_online/features/home/data/model/book_category_model.dart';
@@ -9,7 +10,10 @@ import 'package:books_online/features/home/data/model/carousel_model.dart';
 import 'package:books_online/features/home/data/model/create_paypal_order_model.dart';
 import 'package:books_online/features/home/data/model/text_segment.dart';
 import 'package:books_online/features/home/domain/entity/paypal_order_extensions.dart';
+import 'package:books_online/features/home/domain/usecase/book_detail_usecase.dart';
+import 'package:books_online/features/home/domain/usecase/book_usecase.dart';
 import 'package:books_online/features/home/domain/usecase/create_paypal_order.dart';
+import 'package:books_online/features/home/domain/usecase/subtitle_usecase.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -25,7 +29,10 @@ part 'home_cubit.freezed.dart';
 @injectable
 class HomeCubit extends Cubit<HomeState> {
   final CreatePaypalOrder _paymentRepository;
-  HomeCubit(this._paymentRepository) : super(HomeState());
+  final GetAllBooksUsecase _allBooksUsecase;
+  final GetBookDetailUsecase getBookDetail;
+  final GetBookSubtitleUsecase getBookSubtitle;
+  HomeCubit(this._paymentRepository, this._allBooksUsecase, this.getBookDetail, this.getBookSubtitle) : super(HomeState());
 
   final TextEditingController searchController = TextEditingController();
   final AudioPlayer _player = AudioPlayer();
@@ -38,10 +45,54 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(status: Status.success, carousels: CarouselModel.mockCarouselData));
   }
 
-  void loadMockBooksData() {
-    final books = BookModel.mockData;
+  Future<void> getAllBooks() async {
+    emit(state.copyWith(status: Status.loading));
 
-    emit(state.copyWith(status: Status.success, categories: CategoryModel.mockData, allBooks: books, book: books, selectedCategoryId: 1));
+    try {
+      final books = await _allBooksUsecase();
+
+      // final categories =
+      //     books
+      //         .map((book) => CategoryModel(id: book.categoryId, name: book.category?.name ?? ''))
+      //         .where((category) => category.name.isNotEmpty)
+      //         .fold<Map<int, CategoryModel>>({}, (map, category) {
+      //           map[category.id] = category;
+      //           return map;
+      //         })
+      //         .values
+      //         .toList();
+
+      emit(
+        state.copyWith(
+          status: Status.success,
+          // categories: categories,
+          allBooks: books,
+          book: books,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(status: Status.failure));
+    }
+  }
+
+  Future<void> loadBookDetail(BookModel book) async {
+    try {
+      emit(state.copyWith(audioBook: book, isAudioLoading: true, segments: []));
+
+      // Audio
+      await load(book.audioUrl, isAsset: false);
+
+      // Subtitle
+      final subtitleContent = await getBookSubtitle(url: book.subtitleUrl);
+
+      final segments = SrtParser.parse(subtitleContent);
+
+      emit(state.copyWith(audioBook: book, segments: segments, isAudioLoading: false));
+    } catch (e) {
+      debugPrint('loadBookDetail error: $e');
+
+      emit(state.copyWith(isAudioLoading: false));
+    }
   }
 
   void loadCategoryData() {
@@ -106,19 +157,19 @@ class HomeCubit extends Cubit<HomeState> {
     _player.seek(Duration(seconds: seconds.toInt()));
   }
 
-  Future<void> loadBook(BookModel book) async {
-    emit(state.copyWith(audioBook: book, isAudioLoading: true));
+  // Future<void> loadBookDetail(BookModel book) async {
+  //   emit(state.copyWith(audioBook: book, isAudioLoading: true));
 
-    // Load audio
-    await load(book.audioUrl, isAsset: true);
+  //   // Load audio
+  //   await load(book.audioUrl, isAsset: true);
 
-    // Load subtitle
-    final subtitleContent = await rootBundle.loadString(book.subtitleUrl);
+  //   // Load subtitle
+  //   final subtitleContent = await rootBundle.loadString(book.subtitleUrl);
 
-    final segments = SrtParser.parse(subtitleContent);
+  //   final segments = SrtParser.parse(subtitleContent);
 
-    emit(state.copyWith(audioBook: book, segments: segments, isAudioLoading: false));
-  }
+  //   emit(state.copyWith(audioBook: book, segments: segments, isAudioLoading: false));
+  // }
 
   Future<void> createPaymentPayPal(CreatePaypalOrderModel paypal) async {
     emit(state.copyWith(status: Status.loading));
@@ -149,13 +200,18 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       String? localImagePath;
 
-      if (book.coverImageUrl != null) {
+      if (book.coverImageUrl != null && book.coverImageUrl!.isNotEmpty) {
         final dir = await getTemporaryDirectory();
+
         final fileName = '${book.productId}_cover.jpg';
         final filePath = '${dir.path}/$fileName';
 
+        final String imageUrl = '${ApiEndpoints.baseUrl}${book.coverImageUrl}';
+
         final apiClient = getIt<ApiClient>();
-        await apiClient.dio.download(book.coverImageUrl!, filePath);
+
+        await apiClient.dio.download(imageUrl, filePath);
+
         localImagePath = filePath;
       }
 
@@ -164,13 +220,9 @@ class HomeCubit extends Cubit<HomeState> {
         files: localImagePath != null ? [XFile(localImagePath)] : null,
       );
 
-      final result = await SharePlus.instance.share(params);
-
-      if (result.status == ShareResultStatus.success) {
-        return;
-      }
+      await SharePlus.instance.share(params);
     } catch (e) {
-      print('Error sharing: $e');
+      debugPrint('Error sharing: $e');
     }
   }
 

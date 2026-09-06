@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
               (_) =>
                   getIt<HomeCubit>()
                     ..loadMockData()
-                    ..loadMockBooksData()
+                    ..getAllBooks()
                     ..loadCategoryData(),
         ),
         BlocProvider(create: (_) => getIt<SearchCubit>()..loadMockBooksData()),

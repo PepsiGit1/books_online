@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:books_online/core/constants/api_endpoints.dart';
 import 'package:books_online/core/routing/router.dart';
 import 'package:books_online/core/widgets/card_book_row_widget.dart';
 import 'package:books_online/core/widgets/card_book_widget.dart';
@@ -50,7 +51,7 @@ class HomeContent extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final book = state.book.isNotEmpty ? state.book[index] : null;
                           return CardBookWidget(
-                            imageUrl: book?.coverImageUrl ?? '',
+                            imageUrl: '${ApiEndpoints.baseUrl}${book?.coverImageUrl ?? ''}',
                             title: book?.title ?? '',
                             author: book?.author ?? '',
                             rating: book?.rating ?? 0,

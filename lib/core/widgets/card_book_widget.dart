@@ -43,8 +43,8 @@ class CardBookWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(11),
                       child: CachedNetworkImage(
                         imageUrl: imageUrl,
-                        width: double.infinity,
-                        height: double.infinity,
+                        width: size.width * 1.0,
+                        height: size.height * 1.0,
                         fit: BoxFit.cover,
                         placeholder:
                             (context, url) =>

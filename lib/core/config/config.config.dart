@@ -13,12 +13,22 @@ import 'package:books_online/core/api/api_client.dart' as _i964;
 import 'package:books_online/core/config/app_config.dart' as _i560;
 import 'package:books_online/features/home/data/data_source/remote/remote_data_source.dart'
     as _i458;
+import 'package:books_online/features/home/data/repository/book_repository_impl.dart'
+    as _i75;
 import 'package:books_online/features/home/data/repository/payment_repository_impl.dart'
     as _i479;
+import 'package:books_online/features/home/domain/repository/book_repository.dart'
+    as _i827;
 import 'package:books_online/features/home/domain/repository/payment_repository.dart'
     as _i391;
+import 'package:books_online/features/home/domain/usecase/book_detail_usecase.dart'
+    as _i272;
+import 'package:books_online/features/home/domain/usecase/book_usecase.dart'
+    as _i598;
 import 'package:books_online/features/home/domain/usecase/create_paypal_order.dart'
     as _i403;
+import 'package:books_online/features/home/domain/usecase/subtitle_usecase.dart'
+    as _i799;
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart'
     as _i141;
 import 'package:books_online/features/search/presentation/cubit/search_cubit.dart'
@@ -45,11 +55,28 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i391.PaymentRepository>(
       () => _i479.PaymentRepositoryImpl(gh<_i458.PaymentRemoteDataSource>()),
     );
+    gh.lazySingleton<_i827.BookRepository>(
+      () => _i75.BookRepositoryImpl(gh<_i458.PaymentRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i598.GetAllBooksUsecase>(
+      () => _i598.GetAllBooksUsecase(gh<_i827.BookRepository>()),
+    );
+    gh.lazySingleton<_i272.GetBookDetailUsecase>(
+      () => _i272.GetBookDetailUsecase(gh<_i827.BookRepository>()),
+    );
+    gh.lazySingleton<_i799.GetBookSubtitleUsecase>(
+      () => _i799.GetBookSubtitleUsecase(gh<_i827.BookRepository>()),
+    );
     gh.factory<_i403.CreatePaypalOrder>(
       () => _i403.CreatePaypalOrder(gh<_i391.PaymentRepository>()),
     );
     gh.factory<_i141.HomeCubit>(
-      () => _i141.HomeCubit(gh<_i403.CreatePaypalOrder>()),
+      () => _i141.HomeCubit(
+        gh<_i403.CreatePaypalOrder>(),
+        gh<_i598.GetAllBooksUsecase>(),
+        gh<_i272.GetBookDetailUsecase>(),
+        gh<_i799.GetBookSubtitleUsecase>(),
+      ),
     );
     return this;
   }

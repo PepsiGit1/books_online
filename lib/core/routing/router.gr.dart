@@ -29,7 +29,9 @@ class HomeDetailRoute extends PageRouteInfo<HomeDetailRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<HomeDetailRouteArgs>();
-      return HomeDetailPage(key: args.key, book: args.book);
+      return WrappedRoute(
+        child: HomeDetailPage(key: args.key, book: args.book),
+      );
     },
   );
 }
