@@ -1,9 +1,12 @@
 import 'package:books_online/core/api/api_client.dart';
+import 'package:books_online/core/api/api_response.dart';
 import 'package:books_online/core/constants/api_endpoints.dart';
+import 'package:books_online/features/home/data/model/book_category_model.dart';
 import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/home/data/model/paypal_order_model.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class PaymentRemoteDataSource {
   Future<PaypalOrderModel> createPaypalOrder({
@@ -12,11 +15,14 @@ abstract class PaymentRemoteDataSource {
     required String description,
     required String customId,
   });
+
   Future<List<BookModel>> getAllBooks();
 
   Future<BookModel> getBookById({required int id});
 
   Future<String> getSubtitle({required String url});
+
+  Future<ApiResponse<List<CategoryModel>>> getAllCategories();
 }
 
 @LazySingleton(as: PaymentRemoteDataSource)
@@ -34,14 +40,8 @@ class PaymentRemoteDataSourceImpl implements PaymentRemoteDataSource {
   }) async {
     try {
       final response = await apiClient.post(
-        options: Options(
-          headers: {
-            'Authorization':
-                'Basic QVZ5Nll0UVM0OEh5aUY1ZGNYd2ZPM25jbFZIckZBd3NSQkY1Vm5CT2Uxc2QwcUFxR3FLazpFWTdGaUFZUU9qTWg1S2tZTTk0aXR1SDZ0a1FrRUFpQw==',
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        ),
         ApiEndpoints.paypal,
+        options: Options(headers: {'Authorization': dotenv.env['APP_TOKEN_PAYPAL'], 'Content-Type': 'application/x-www-form-urlencoded'}),
         data: {
           'intent': 'CAPTURE',
           'purchase_units': [
@@ -92,10 +92,30 @@ class PaymentRemoteDataSourceImpl implements PaymentRemoteDataSource {
   @override
   Future<String> getSubtitle({required String url}) async {
     try {
-      final response = await apiClient.get(url);
-      return response.data ?? '';
+      final fullUrl = url.startsWith('http') ? url : '${ApiEndpoints.baseUrl}$url';
+
+      final response = await apiClient.get(fullUrl, options: Options(responseType: ResponseType.plain));
+
+      return response.data?.toString() ?? '';
     } on DioException catch (e) {
       throw Exception('Failed to get subtitle: ${e.message}');
+    }
+  }
+
+  @override
+  Future<ApiResponse<List<CategoryModel>>> getAllCategories() async {
+    try {
+      final response = await apiClient.get(ApiEndpoints.category);
+
+      final data = response.data as Map<String, dynamic>;
+
+      final categories = (data['data'] as List<dynamic>).map((json) => CategoryModel.fromJson(json as Map<String, dynamic>)).toList();
+
+      return ApiResponse.success(categories);
+    } on DioException catch (e) {
+      return ApiResponse.error(e.message ?? 'Failed to get categories');
+    } catch (e) {
+      return ApiResponse.error(e.toString());
     }
   }
 }

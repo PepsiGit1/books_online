@@ -19,7 +19,11 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SearchState {
   Status get status => throw _privateConstructorUsedError;
   String get mess => throw _privateConstructorUsedError;
-  List<SearchModel> get book => throw _privateConstructorUsedError;
+  List<BookModel> get book => throw _privateConstructorUsedError;
+  List<BookModel> get searchResults => throw _privateConstructorUsedError;
+  bool get isSearching => throw _privateConstructorUsedError;
+  int get selectedCategoryId => throw _privateConstructorUsedError;
+  List<CategoryModel> get categories => throw _privateConstructorUsedError;
 
   /// Create a copy of SearchState
   /// with the given fields replaced by the non-null parameter values.
@@ -35,7 +39,15 @@ abstract class $SearchStateCopyWith<$Res> {
     $Res Function(SearchState) then,
   ) = _$SearchStateCopyWithImpl<$Res, SearchState>;
   @useResult
-  $Res call({Status status, String mess, List<SearchModel> book});
+  $Res call({
+    Status status,
+    String mess,
+    List<BookModel> book,
+    List<BookModel> searchResults,
+    bool isSearching,
+    int selectedCategoryId,
+    List<CategoryModel> categories,
+  });
 }
 
 /// @nodoc
@@ -52,7 +64,15 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? status = null, Object? mess = null, Object? book = null}) {
+  $Res call({
+    Object? status = null,
+    Object? mess = null,
+    Object? book = null,
+    Object? searchResults = null,
+    Object? isSearching = null,
+    Object? selectedCategoryId = null,
+    Object? categories = null,
+  }) {
     return _then(
       _value.copyWith(
             status:
@@ -69,7 +89,27 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
                 null == book
                     ? _value.book
                     : book // ignore: cast_nullable_to_non_nullable
-                        as List<SearchModel>,
+                        as List<BookModel>,
+            searchResults:
+                null == searchResults
+                    ? _value.searchResults
+                    : searchResults // ignore: cast_nullable_to_non_nullable
+                        as List<BookModel>,
+            isSearching:
+                null == isSearching
+                    ? _value.isSearching
+                    : isSearching // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            selectedCategoryId:
+                null == selectedCategoryId
+                    ? _value.selectedCategoryId
+                    : selectedCategoryId // ignore: cast_nullable_to_non_nullable
+                        as int,
+            categories:
+                null == categories
+                    ? _value.categories
+                    : categories // ignore: cast_nullable_to_non_nullable
+                        as List<CategoryModel>,
           )
           as $Val,
     );
@@ -85,7 +125,15 @@ abstract class _$$SearchStateImplCopyWith<$Res>
   ) = __$$SearchStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Status status, String mess, List<SearchModel> book});
+  $Res call({
+    Status status,
+    String mess,
+    List<BookModel> book,
+    List<BookModel> searchResults,
+    bool isSearching,
+    int selectedCategoryId,
+    List<CategoryModel> categories,
+  });
 }
 
 /// @nodoc
@@ -101,7 +149,15 @@ class __$$SearchStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? status = null, Object? mess = null, Object? book = null}) {
+  $Res call({
+    Object? status = null,
+    Object? mess = null,
+    Object? book = null,
+    Object? searchResults = null,
+    Object? isSearching = null,
+    Object? selectedCategoryId = null,
+    Object? categories = null,
+  }) {
     return _then(
       _$SearchStateImpl(
         status:
@@ -118,7 +174,27 @@ class __$$SearchStateImplCopyWithImpl<$Res>
             null == book
                 ? _value._book
                 : book // ignore: cast_nullable_to_non_nullable
-                    as List<SearchModel>,
+                    as List<BookModel>,
+        searchResults:
+            null == searchResults
+                ? _value._searchResults
+                : searchResults // ignore: cast_nullable_to_non_nullable
+                    as List<BookModel>,
+        isSearching:
+            null == isSearching
+                ? _value.isSearching
+                : isSearching // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        selectedCategoryId:
+            null == selectedCategoryId
+                ? _value.selectedCategoryId
+                : selectedCategoryId // ignore: cast_nullable_to_non_nullable
+                    as int,
+        categories:
+            null == categories
+                ? _value._categories
+                : categories // ignore: cast_nullable_to_non_nullable
+                    as List<CategoryModel>,
       ),
     );
   }
@@ -130,8 +206,14 @@ class _$SearchStateImpl implements _SearchState {
   const _$SearchStateImpl({
     this.status = Status.initial,
     this.mess = '',
-    final List<SearchModel> book = const [],
-  }) : _book = book;
+    final List<BookModel> book = const [],
+    final List<BookModel> searchResults = const [],
+    this.isSearching = false,
+    this.selectedCategoryId = 1,
+    final List<CategoryModel> categories = const [],
+  }) : _book = book,
+       _searchResults = searchResults,
+       _categories = categories;
 
   @override
   @JsonKey()
@@ -139,18 +221,42 @@ class _$SearchStateImpl implements _SearchState {
   @override
   @JsonKey()
   final String mess;
-  final List<SearchModel> _book;
+  final List<BookModel> _book;
   @override
   @JsonKey()
-  List<SearchModel> get book {
+  List<BookModel> get book {
     if (_book is EqualUnmodifiableListView) return _book;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_book);
   }
 
+  final List<BookModel> _searchResults;
+  @override
+  @JsonKey()
+  List<BookModel> get searchResults {
+    if (_searchResults is EqualUnmodifiableListView) return _searchResults;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_searchResults);
+  }
+
+  @override
+  @JsonKey()
+  final bool isSearching;
+  @override
+  @JsonKey()
+  final int selectedCategoryId;
+  final List<CategoryModel> _categories;
+  @override
+  @JsonKey()
+  List<CategoryModel> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
   @override
   String toString() {
-    return 'SearchState(status: $status, mess: $mess, book: $book)';
+    return 'SearchState(status: $status, mess: $mess, book: $book, searchResults: $searchResults, isSearching: $isSearching, selectedCategoryId: $selectedCategoryId, categories: $categories)';
   }
 
   @override
@@ -160,7 +266,19 @@ class _$SearchStateImpl implements _SearchState {
             other is _$SearchStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.mess, mess) || other.mess == mess) &&
-            const DeepCollectionEquality().equals(other._book, _book));
+            const DeepCollectionEquality().equals(other._book, _book) &&
+            const DeepCollectionEquality().equals(
+              other._searchResults,
+              _searchResults,
+            ) &&
+            (identical(other.isSearching, isSearching) ||
+                other.isSearching == isSearching) &&
+            (identical(other.selectedCategoryId, selectedCategoryId) ||
+                other.selectedCategoryId == selectedCategoryId) &&
+            const DeepCollectionEquality().equals(
+              other._categories,
+              _categories,
+            ));
   }
 
   @override
@@ -169,6 +287,10 @@ class _$SearchStateImpl implements _SearchState {
     status,
     mess,
     const DeepCollectionEquality().hash(_book),
+    const DeepCollectionEquality().hash(_searchResults),
+    isSearching,
+    selectedCategoryId,
+    const DeepCollectionEquality().hash(_categories),
   );
 
   /// Create a copy of SearchState
@@ -184,7 +306,11 @@ abstract class _SearchState implements SearchState {
   const factory _SearchState({
     final Status status,
     final String mess,
-    final List<SearchModel> book,
+    final List<BookModel> book,
+    final List<BookModel> searchResults,
+    final bool isSearching,
+    final int selectedCategoryId,
+    final List<CategoryModel> categories,
   }) = _$SearchStateImpl;
 
   @override
@@ -192,7 +318,15 @@ abstract class _SearchState implements SearchState {
   @override
   String get mess;
   @override
-  List<SearchModel> get book;
+  List<BookModel> get book;
+  @override
+  List<BookModel> get searchResults;
+  @override
+  bool get isSearching;
+  @override
+  int get selectedCategoryId;
+  @override
+  List<CategoryModel> get categories;
 
   /// Create a copy of SearchState
   /// with the given fields replaced by the non-null parameter values.

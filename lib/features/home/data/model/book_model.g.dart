@@ -19,14 +19,17 @@ _$BookModelImpl _$$BookModelImplFromJson(Map<String, dynamic> json) =>
       isPremium: json['isPremium'] as bool? ?? false,
       isSaved: json['isSaved'] as bool? ?? false,
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
-      audioUrl: json['audioUrl'] as String? ?? "",
-      subtitleUrl: json['subtitleUrl'] as String? ?? "",
       category:
           json['category'] == null
               ? null
               : CategoryModel.fromJson(
                 json['category'] as Map<String, dynamic>,
               ),
+      chapters:
+          (json['chapters'] as List<dynamic>?)
+              ?.map((e) => ChapterModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$BookModelImplToJson(_$BookModelImpl instance) =>
@@ -42,7 +45,6 @@ Map<String, dynamic> _$$BookModelImplToJson(_$BookModelImpl instance) =>
       'isPremium': instance.isPremium,
       'isSaved': instance.isSaved,
       'price': instance.price,
-      'audioUrl': instance.audioUrl,
-      'subtitleUrl': instance.subtitleUrl,
       'category': instance.category,
+      'chapters': instance.chapters,
     };

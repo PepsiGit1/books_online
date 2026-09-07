@@ -17,6 +17,7 @@ class AppSearchBar extends StatelessWidget {
       builder: (context, value, child) {
         return TextField(
           controller: controller,
+          onSubmitted: onSubmitted,
           decoration: InputDecoration(
             hintText: hintText,
             prefixIcon: const Icon(Icons.search),
@@ -29,7 +30,7 @@ class AppSearchBar extends StatelessWidget {
                         width: 24,
                         height: 24,
                         decoration: BoxDecoration(color: AppColors.grey, borderRadius: BorderRadius.circular(100)),
-                        child: Icon(Icons.clear, color: AppColors.white),
+                        child: const Icon(Icons.clear, color: AppColors.white),
                       ),
                       onPressed: () {
                         controller.clear();

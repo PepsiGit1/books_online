@@ -12,13 +12,27 @@ class SearchPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(create: (_) => getIt<SearchCubit>()..loadMockBooksData(), child: this);
+    return BlocProvider(create: (_) => getIt<SearchCubit>(), child: this);
   }
 
   @override
   Widget build(BuildContext context) {
-    final searchController = TextEditingController();
+    final cubit = context.read<SearchCubit>();
 
-    return Scaffold(appBar: AppBar(title: AppSearchBar(controller: searchController), centerTitle: true), body: SearchContent());
+    return Scaffold(
+      appBar: AppBar(
+        title: AppSearchBar(
+          controller: cubit.searchController,
+          onSubmitted: (value) {
+            cubit.searchBooks(value, categoryId: 2);
+          },
+          onClear: () {
+            cubit.getDefaultBooks();
+          },
+        ),
+        centerTitle: true,
+      ),
+      body: const SearchContent(),
+    );
   }
 }

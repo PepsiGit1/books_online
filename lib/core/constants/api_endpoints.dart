@@ -22,4 +22,6 @@ class ApiEndpoints {
 
   // book
   static const String book = '/book';
+  static const String category = '/category';
+  static const String searchBooks = '/book/search';
 }

@@ -1,3 +1,5 @@
+import 'package:books_online/core/constants/api_endpoints.dart';
+import 'package:books_online/core/enum/status.dart';
 import 'package:books_online/core/widgets/card_book_widget.dart';
 import 'package:books_online/features/home/data/model/book_category_model.dart';
 import 'package:books_online/features/search/presentation/cubit/search_cubit.dart';
@@ -10,9 +12,20 @@ class SearchContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchCubit, SearchState>(
+    return BlocConsumer<SearchCubit, SearchState>(
+      listener: (context, state) {
+        if (state.status == Status.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.mess.isNotEmpty ? state.mess : 'Something went wrong')));
+        }
+        if (state.status == Status.loading) {
+          Center(child: CircularProgressIndicator());
+        }
+        if (state.status == Status.notfound) {
+          const Center(child: Text('No books found'));
+        }
+      },
       builder: (context, state) {
-        debugPrint('🔵 SearchContent build, cubit instance: ${context.read<SearchCubit>().hashCode}');
+        final books = state.isSearching ? state.searchResults : state.book.take(4).toList();
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -21,14 +34,15 @@ class SearchContent extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 CategoryTabsWidget(
-                  selectedCategoryId: 1,
-                  categories: const [CategoryModel(id: 1, name: 'All'), CategoryModel(id: 2, name: 'Fiction'), CategoryModel(id: 3, name: 'Romance')],
+                  selectedCategoryId: state.selectedCategoryId,
+                  categories: [const CategoryModel(id: 0, name: 'All'), ...state.categories],
                   onCategorySelected: (categoryId) {
-                    debugPrint('Selected: $categoryId');
+                    context.read<SearchCubit>().searchBooks(context.read<SearchCubit>().searchController.text, categoryId: categoryId);
                   },
                 ),
 
                 const SizedBox(height: 20),
+
                 Expanded(
                   child: GridView.builder(
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -37,15 +51,17 @@ class SearchContent extends StatelessWidget {
                       crossAxisSpacing: 16,
                       childAspectRatio: 0.5,
                     ),
-                    itemCount: state.book.length,
+                    itemCount: books.length,
                     itemBuilder: (BuildContext context, int index) {
                       final book = state.book[index];
                       return CardBookWidget(
-                        imageUrl: book.coverImageUrl ?? '',
+                        imageUrl: '${ApiEndpoints.baseUrl}${book.coverImageUrl ?? ''}',
                         title: book.title,
                         author: book.author ?? '',
                         rating: book.rating ?? 0,
-                        onPressed: () => print('Book $index clicked'),
+                        onPressed: () {
+                          debugPrint('Book ${book.id} clicked');
+                        },
                       );
                     },
                   ),

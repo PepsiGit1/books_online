@@ -32,9 +32,8 @@ mixin _$BookModel {
   bool get isPremium => throw _privateConstructorUsedError;
   bool get isSaved => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
-  String get audioUrl => throw _privateConstructorUsedError;
-  String get subtitleUrl => throw _privateConstructorUsedError;
   CategoryModel? get category => throw _privateConstructorUsedError;
+  List<ChapterModel> get chapters => throw _privateConstructorUsedError;
 
   /// Serializes this BookModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -63,9 +62,8 @@ abstract class $BookModelCopyWith<$Res> {
     bool isPremium,
     bool isSaved,
     double price,
-    String audioUrl,
-    String subtitleUrl,
     CategoryModel? category,
+    List<ChapterModel> chapters,
   });
 
   $CategoryModelCopyWith<$Res>? get category;
@@ -97,9 +95,8 @@ class _$BookModelCopyWithImpl<$Res, $Val extends BookModel>
     Object? isPremium = null,
     Object? isSaved = null,
     Object? price = null,
-    Object? audioUrl = null,
-    Object? subtitleUrl = null,
     Object? category = freezed,
+    Object? chapters = null,
   }) {
     return _then(
       _value.copyWith(
@@ -158,21 +155,16 @@ class _$BookModelCopyWithImpl<$Res, $Val extends BookModel>
                     ? _value.price
                     : price // ignore: cast_nullable_to_non_nullable
                         as double,
-            audioUrl:
-                null == audioUrl
-                    ? _value.audioUrl
-                    : audioUrl // ignore: cast_nullable_to_non_nullable
-                        as String,
-            subtitleUrl:
-                null == subtitleUrl
-                    ? _value.subtitleUrl
-                    : subtitleUrl // ignore: cast_nullable_to_non_nullable
-                        as String,
             category:
                 freezed == category
                     ? _value.category
                     : category // ignore: cast_nullable_to_non_nullable
                         as CategoryModel?,
+            chapters:
+                null == chapters
+                    ? _value.chapters
+                    : chapters // ignore: cast_nullable_to_non_nullable
+                        as List<ChapterModel>,
           )
           as $Val,
     );
@@ -214,9 +206,8 @@ abstract class _$$BookModelImplCopyWith<$Res>
     bool isPremium,
     bool isSaved,
     double price,
-    String audioUrl,
-    String subtitleUrl,
     CategoryModel? category,
+    List<ChapterModel> chapters,
   });
 
   @override
@@ -248,9 +239,8 @@ class __$$BookModelImplCopyWithImpl<$Res>
     Object? isPremium = null,
     Object? isSaved = null,
     Object? price = null,
-    Object? audioUrl = null,
-    Object? subtitleUrl = null,
     Object? category = freezed,
+    Object? chapters = null,
   }) {
     return _then(
       _$BookModelImpl(
@@ -309,21 +299,16 @@ class __$$BookModelImplCopyWithImpl<$Res>
                 ? _value.price
                 : price // ignore: cast_nullable_to_non_nullable
                     as double,
-        audioUrl:
-            null == audioUrl
-                ? _value.audioUrl
-                : audioUrl // ignore: cast_nullable_to_non_nullable
-                    as String,
-        subtitleUrl:
-            null == subtitleUrl
-                ? _value.subtitleUrl
-                : subtitleUrl // ignore: cast_nullable_to_non_nullable
-                    as String,
         category:
             freezed == category
                 ? _value.category
                 : category // ignore: cast_nullable_to_non_nullable
                     as CategoryModel?,
+        chapters:
+            null == chapters
+                ? _value._chapters
+                : chapters // ignore: cast_nullable_to_non_nullable
+                    as List<ChapterModel>,
       ),
     );
   }
@@ -344,10 +329,9 @@ class _$BookModelImpl implements _BookModel {
     this.isPremium = false,
     this.isSaved = false,
     this.price = 0.0,
-    this.audioUrl = "",
-    this.subtitleUrl = "",
     this.category,
-  });
+    final List<ChapterModel> chapters = const [],
+  }) : _chapters = chapters;
 
   factory _$BookModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$BookModelImplFromJson(json);
@@ -378,17 +362,19 @@ class _$BookModelImpl implements _BookModel {
   @JsonKey()
   final double price;
   @override
-  @JsonKey()
-  final String audioUrl;
-  @override
-  @JsonKey()
-  final String subtitleUrl;
-  @override
   final CategoryModel? category;
+  final List<ChapterModel> _chapters;
+  @override
+  @JsonKey()
+  List<ChapterModel> get chapters {
+    if (_chapters is EqualUnmodifiableListView) return _chapters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_chapters);
+  }
 
   @override
   String toString() {
-    return 'BookModel(id: $id, title: $title, author: $author, productId: $productId, coverImageUrl: $coverImageUrl, rating: $rating, progress: $progress, categoryId: $categoryId, isPremium: $isPremium, isSaved: $isSaved, price: $price, audioUrl: $audioUrl, subtitleUrl: $subtitleUrl, category: $category)';
+    return 'BookModel(id: $id, title: $title, author: $author, productId: $productId, coverImageUrl: $coverImageUrl, rating: $rating, progress: $progress, categoryId: $categoryId, isPremium: $isPremium, isSaved: $isSaved, price: $price, category: $category, chapters: $chapters)';
   }
 
   @override
@@ -412,12 +398,9 @@ class _$BookModelImpl implements _BookModel {
                 other.isPremium == isPremium) &&
             (identical(other.isSaved, isSaved) || other.isSaved == isSaved) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.audioUrl, audioUrl) ||
-                other.audioUrl == audioUrl) &&
-            (identical(other.subtitleUrl, subtitleUrl) ||
-                other.subtitleUrl == subtitleUrl) &&
             (identical(other.category, category) ||
-                other.category == category));
+                other.category == category) &&
+            const DeepCollectionEquality().equals(other._chapters, _chapters));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -435,9 +418,8 @@ class _$BookModelImpl implements _BookModel {
     isPremium,
     isSaved,
     price,
-    audioUrl,
-    subtitleUrl,
     category,
+    const DeepCollectionEquality().hash(_chapters),
   );
 
   /// Create a copy of BookModel
@@ -467,9 +449,8 @@ abstract class _BookModel implements BookModel {
     final bool isPremium,
     final bool isSaved,
     final double price,
-    final String audioUrl,
-    final String subtitleUrl,
     final CategoryModel? category,
+    final List<ChapterModel> chapters,
   }) = _$BookModelImpl;
 
   factory _BookModel.fromJson(Map<String, dynamic> json) =
@@ -498,11 +479,9 @@ abstract class _BookModel implements BookModel {
   @override
   double get price;
   @override
-  String get audioUrl;
-  @override
-  String get subtitleUrl;
-  @override
   CategoryModel? get category;
+  @override
+  List<ChapterModel> get chapters;
 
   /// Create a copy of BookModel
   /// with the given fields replaced by the non-null parameter values.

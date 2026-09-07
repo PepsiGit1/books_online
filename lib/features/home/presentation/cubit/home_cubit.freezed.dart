@@ -19,18 +19,21 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   Status get status => throw _privateConstructorUsedError;
   String get mess => throw _privateConstructorUsedError;
-  int get currentIndex => throw _privateConstructorUsedError;
+  int get currentIndex => throw _privateConstructorUsedError; // Books
   List<BookModel> get allBooks => throw _privateConstructorUsedError;
-  List<BookModel> get book => throw _privateConstructorUsedError;
-  List<CarouselModel> get carousels => throw _privateConstructorUsedError;
+  List<BookModel> get book => throw _privateConstructorUsedError; // Home
+  List<CarouselModel> get carousels =>
+      throw _privateConstructorUsedError; // Categories
   List<CategoryModel> get categories => throw _privateConstructorUsedError;
-  int get selectedCategoryId => throw _privateConstructorUsedError;
+  int get selectedCategoryId => throw _privateConstructorUsedError; // Audio
+  BookModel? get audioBook => throw _privateConstructorUsedError;
+  ChapterModel? get selectedChapter => throw _privateConstructorUsedError;
   Duration get position => throw _privateConstructorUsedError;
   Duration get duration => throw _privateConstructorUsedError;
   bool get playing => throw _privateConstructorUsedError;
   bool get isAudioLoading => throw _privateConstructorUsedError;
-  List<TextSegment> get segments => throw _privateConstructorUsedError;
-  BookModel? get audioBook => throw _privateConstructorUsedError; // Payment
+  List<TextSegment> get segments =>
+      throw _privateConstructorUsedError; // Payment
   bool get isPurchasing => throw _privateConstructorUsedError;
   bool get purchaseSuccess => throw _privateConstructorUsedError;
   String? get purchaseProductId => throw _privateConstructorUsedError;
@@ -56,18 +59,20 @@ abstract class $HomeStateCopyWith<$Res> {
     List<CarouselModel> carousels,
     List<CategoryModel> categories,
     int selectedCategoryId,
+    BookModel? audioBook,
+    ChapterModel? selectedChapter,
     Duration position,
     Duration duration,
     bool playing,
     bool isAudioLoading,
     List<TextSegment> segments,
-    BookModel? audioBook,
     bool isPurchasing,
     bool purchaseSuccess,
     String? purchaseProductId,
   });
 
   $BookModelCopyWith<$Res>? get audioBook;
+  $ChapterModelCopyWith<$Res>? get selectedChapter;
 }
 
 /// @nodoc
@@ -93,12 +98,13 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? carousels = null,
     Object? categories = null,
     Object? selectedCategoryId = null,
+    Object? audioBook = freezed,
+    Object? selectedChapter = freezed,
     Object? position = null,
     Object? duration = null,
     Object? playing = null,
     Object? isAudioLoading = null,
     Object? segments = null,
-    Object? audioBook = freezed,
     Object? isPurchasing = null,
     Object? purchaseSuccess = null,
     Object? purchaseProductId = freezed,
@@ -145,6 +151,16 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                     ? _value.selectedCategoryId
                     : selectedCategoryId // ignore: cast_nullable_to_non_nullable
                         as int,
+            audioBook:
+                freezed == audioBook
+                    ? _value.audioBook
+                    : audioBook // ignore: cast_nullable_to_non_nullable
+                        as BookModel?,
+            selectedChapter:
+                freezed == selectedChapter
+                    ? _value.selectedChapter
+                    : selectedChapter // ignore: cast_nullable_to_non_nullable
+                        as ChapterModel?,
             position:
                 null == position
                     ? _value.position
@@ -170,11 +186,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                     ? _value.segments
                     : segments // ignore: cast_nullable_to_non_nullable
                         as List<TextSegment>,
-            audioBook:
-                freezed == audioBook
-                    ? _value.audioBook
-                    : audioBook // ignore: cast_nullable_to_non_nullable
-                        as BookModel?,
             isPurchasing:
                 null == isPurchasing
                     ? _value.isPurchasing
@@ -208,6 +219,20 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       return _then(_value.copyWith(audioBook: value) as $Val);
     });
   }
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ChapterModelCopyWith<$Res>? get selectedChapter {
+    if (_value.selectedChapter == null) {
+      return null;
+    }
+
+    return $ChapterModelCopyWith<$Res>(_value.selectedChapter!, (value) {
+      return _then(_value.copyWith(selectedChapter: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -228,12 +253,13 @@ abstract class _$$HomeStateImplCopyWith<$Res>
     List<CarouselModel> carousels,
     List<CategoryModel> categories,
     int selectedCategoryId,
+    BookModel? audioBook,
+    ChapterModel? selectedChapter,
     Duration position,
     Duration duration,
     bool playing,
     bool isAudioLoading,
     List<TextSegment> segments,
-    BookModel? audioBook,
     bool isPurchasing,
     bool purchaseSuccess,
     String? purchaseProductId,
@@ -241,6 +267,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
 
   @override
   $BookModelCopyWith<$Res>? get audioBook;
+  @override
+  $ChapterModelCopyWith<$Res>? get selectedChapter;
 }
 
 /// @nodoc
@@ -265,12 +293,13 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? carousels = null,
     Object? categories = null,
     Object? selectedCategoryId = null,
+    Object? audioBook = freezed,
+    Object? selectedChapter = freezed,
     Object? position = null,
     Object? duration = null,
     Object? playing = null,
     Object? isAudioLoading = null,
     Object? segments = null,
-    Object? audioBook = freezed,
     Object? isPurchasing = null,
     Object? purchaseSuccess = null,
     Object? purchaseProductId = freezed,
@@ -317,6 +346,16 @@ class __$$HomeStateImplCopyWithImpl<$Res>
                 ? _value.selectedCategoryId
                 : selectedCategoryId // ignore: cast_nullable_to_non_nullable
                     as int,
+        audioBook:
+            freezed == audioBook
+                ? _value.audioBook
+                : audioBook // ignore: cast_nullable_to_non_nullable
+                    as BookModel?,
+        selectedChapter:
+            freezed == selectedChapter
+                ? _value.selectedChapter
+                : selectedChapter // ignore: cast_nullable_to_non_nullable
+                    as ChapterModel?,
         position:
             null == position
                 ? _value.position
@@ -342,11 +381,6 @@ class __$$HomeStateImplCopyWithImpl<$Res>
                 ? _value._segments
                 : segments // ignore: cast_nullable_to_non_nullable
                     as List<TextSegment>,
-        audioBook:
-            freezed == audioBook
-                ? _value.audioBook
-                : audioBook // ignore: cast_nullable_to_non_nullable
-                    as BookModel?,
         isPurchasing:
             null == isPurchasing
                 ? _value.isPurchasing
@@ -379,12 +413,13 @@ class _$HomeStateImpl implements _HomeState {
     final List<CarouselModel> carousels = const [],
     final List<CategoryModel> categories = const [],
     this.selectedCategoryId = 0,
+    this.audioBook,
+    this.selectedChapter,
     this.position = Duration.zero,
     this.duration = Duration.zero,
     this.playing = false,
     this.isAudioLoading = false,
     final List<TextSegment> segments = const [],
-    this.audioBook,
     this.isPurchasing = false,
     this.purchaseSuccess = false,
     this.purchaseProductId,
@@ -403,7 +438,9 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final int currentIndex;
+  // Books
   final List<BookModel> _allBooks;
+  // Books
   @override
   @JsonKey()
   List<BookModel> get allBooks {
@@ -421,7 +458,9 @@ class _$HomeStateImpl implements _HomeState {
     return EqualUnmodifiableListView(_book);
   }
 
+  // Home
   final List<CarouselModel> _carousels;
+  // Home
   @override
   @JsonKey()
   List<CarouselModel> get carousels {
@@ -430,7 +469,9 @@ class _$HomeStateImpl implements _HomeState {
     return EqualUnmodifiableListView(_carousels);
   }
 
+  // Categories
   final List<CategoryModel> _categories;
+  // Categories
   @override
   @JsonKey()
   List<CategoryModel> get categories {
@@ -442,6 +483,11 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final int selectedCategoryId;
+  // Audio
+  @override
+  final BookModel? audioBook;
+  @override
+  final ChapterModel? selectedChapter;
   @override
   @JsonKey()
   final Duration position;
@@ -463,8 +509,6 @@ class _$HomeStateImpl implements _HomeState {
     return EqualUnmodifiableListView(_segments);
   }
 
-  @override
-  final BookModel? audioBook;
   // Payment
   @override
   @JsonKey()
@@ -477,7 +521,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(status: $status, mess: $mess, currentIndex: $currentIndex, allBooks: $allBooks, book: $book, carousels: $carousels, categories: $categories, selectedCategoryId: $selectedCategoryId, position: $position, duration: $duration, playing: $playing, isAudioLoading: $isAudioLoading, segments: $segments, audioBook: $audioBook, isPurchasing: $isPurchasing, purchaseSuccess: $purchaseSuccess, purchaseProductId: $purchaseProductId)';
+    return 'HomeState(status: $status, mess: $mess, currentIndex: $currentIndex, allBooks: $allBooks, book: $book, carousels: $carousels, categories: $categories, selectedCategoryId: $selectedCategoryId, audioBook: $audioBook, selectedChapter: $selectedChapter, position: $position, duration: $duration, playing: $playing, isAudioLoading: $isAudioLoading, segments: $segments, isPurchasing: $isPurchasing, purchaseSuccess: $purchaseSuccess, purchaseProductId: $purchaseProductId)';
   }
 
   @override
@@ -501,6 +545,10 @@ class _$HomeStateImpl implements _HomeState {
             ) &&
             (identical(other.selectedCategoryId, selectedCategoryId) ||
                 other.selectedCategoryId == selectedCategoryId) &&
+            (identical(other.audioBook, audioBook) ||
+                other.audioBook == audioBook) &&
+            (identical(other.selectedChapter, selectedChapter) ||
+                other.selectedChapter == selectedChapter) &&
             (identical(other.position, position) ||
                 other.position == position) &&
             (identical(other.duration, duration) ||
@@ -509,8 +557,6 @@ class _$HomeStateImpl implements _HomeState {
             (identical(other.isAudioLoading, isAudioLoading) ||
                 other.isAudioLoading == isAudioLoading) &&
             const DeepCollectionEquality().equals(other._segments, _segments) &&
-            (identical(other.audioBook, audioBook) ||
-                other.audioBook == audioBook) &&
             (identical(other.isPurchasing, isPurchasing) ||
                 other.isPurchasing == isPurchasing) &&
             (identical(other.purchaseSuccess, purchaseSuccess) ||
@@ -530,12 +576,13 @@ class _$HomeStateImpl implements _HomeState {
     const DeepCollectionEquality().hash(_carousels),
     const DeepCollectionEquality().hash(_categories),
     selectedCategoryId,
+    audioBook,
+    selectedChapter,
     position,
     duration,
     playing,
     isAudioLoading,
     const DeepCollectionEquality().hash(_segments),
-    audioBook,
     isPurchasing,
     purchaseSuccess,
     purchaseProductId,
@@ -560,12 +607,13 @@ abstract class _HomeState implements HomeState {
     final List<CarouselModel> carousels,
     final List<CategoryModel> categories,
     final int selectedCategoryId,
+    final BookModel? audioBook,
+    final ChapterModel? selectedChapter,
     final Duration position,
     final Duration duration,
     final bool playing,
     final bool isAudioLoading,
     final List<TextSegment> segments,
-    final BookModel? audioBook,
     final bool isPurchasing,
     final bool purchaseSuccess,
     final String? purchaseProductId,
@@ -576,17 +624,21 @@ abstract class _HomeState implements HomeState {
   @override
   String get mess;
   @override
-  int get currentIndex;
+  int get currentIndex; // Books
   @override
   List<BookModel> get allBooks;
   @override
-  List<BookModel> get book;
+  List<BookModel> get book; // Home
   @override
-  List<CarouselModel> get carousels;
+  List<CarouselModel> get carousels; // Categories
   @override
   List<CategoryModel> get categories;
   @override
-  int get selectedCategoryId;
+  int get selectedCategoryId; // Audio
+  @override
+  BookModel? get audioBook;
+  @override
+  ChapterModel? get selectedChapter;
   @override
   Duration get position;
   @override
@@ -596,9 +648,7 @@ abstract class _HomeState implements HomeState {
   @override
   bool get isAudioLoading;
   @override
-  List<TextSegment> get segments;
-  @override
-  BookModel? get audioBook; // Payment
+  List<TextSegment> get segments; // Payment
   @override
   bool get isPurchasing;
   @override

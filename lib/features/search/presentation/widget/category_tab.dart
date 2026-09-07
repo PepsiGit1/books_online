@@ -26,15 +26,17 @@ class CategoryTabsWidget extends StatelessWidget {
           final isSelected = category.id == selectedCategoryId;
 
           return InkWell(
+            borderRadius: BorderRadius.circular(20),
             onTap: () => onCategorySelected(category.id),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeOutCubic,
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(color: isSelected ? AppColors.bronze : AppColors.white, borderRadius: BorderRadius.circular(20)),
               child: Center(
                 child: Text(
                   category.name,
-                  style: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: isSelected ? AppColors.bronze : AppColors.black),
+                  style: theme.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600, color: isSelected ? AppColors.white : AppColors.black),
                 ),
               ),
             ),
