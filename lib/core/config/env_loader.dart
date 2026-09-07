@@ -8,13 +8,8 @@ class EnvLoader {
   static Future<void> load({String fileName = '.env'}) async {
     await dotenv.load(fileName: fileName, mergeWith: {});
     final envName = dotenv.maybeGet('APP_ENV') ?? 'dev';
-    currentEnvironment = AppEnvironment.values.firstWhere(
-      (element) => element.name == envName,
-      orElse: () => AppEnvironment.dev,
-    );
+    currentEnvironment = AppEnvironment.values.firstWhere((element) => element.name == envName, orElse: () => AppEnvironment.dev);
   }
 
-  static String get apiBaseUrl =>
-      dotenv.maybeGet('API_BASE_URL') ?? 'https://api.example.com';
+  static String get apiBaseUrl => dotenv.maybeGet('API_BASE_URL') ?? 'https://api.example.com';
 }
-

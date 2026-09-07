@@ -1,19 +1,27 @@
 /// API endpoint constants
 class ApiEndpoints {
   ApiEndpoints._();
-  
+  static const String baseUrl = 'http://localhost:8000';
+
   // Auth
   static const String login = '/auth/login';
   static const String register = '/auth/register';
   static const String refreshToken = '/auth/refresh';
   static const String logout = '/auth/logout';
-  
+
   // User
   static const String profile = '/user/profile';
   static const String updateProfile = '/user/profile';
-  
+
   // Example endpoints - replace with your actual API
   static const String posts = '/posts';
   static String postDetail(int id) => '/posts/$id';
-}
 
+  //api paypal
+  static const String paypal = 'https://mockgateway.com/api/base/paypal-xqkjwe/v2/checkout/orders';
+
+  // book
+  static const String book = '/book';
+  static const String category = '/category';
+  static const String searchBooks = '/book/search';
+}
