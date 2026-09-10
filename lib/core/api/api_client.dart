@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:injectable/injectable.dart';
 
 import '../config/app_config.dart';
@@ -7,6 +8,7 @@ import '../storage/local_storage.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/logger_interceptor.dart';
 import 'interceptors/retry_interceptor.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 
 @LazySingleton()
 class ApiClient {
@@ -27,6 +29,8 @@ class ApiClient {
         headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
       ),
     );
+    final cookieJar = CookieJar();
+    dio.interceptors.add(CookieManager(cookieJar));
 
     // Add interceptors in order
     LocalStorage.getInstance().then((storage) {
