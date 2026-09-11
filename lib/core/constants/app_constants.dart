@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+
 /// Application-wide constants
 class AppConstants {
   AppConstants._();
@@ -15,6 +18,11 @@ class AppConstants {
   static const String keyUser = 'user';
   static const String keyThemeMode = 'theme_mode';
   static const String keyLanguage = 'language';
+
+  //password
+  static const String currentPassword = 'currentPassword';
+  static const String newPassword = 'newPassword';
+  static const String confirmPassword = 'confirmPassword';
 
   // Pagination
   static const int defaultPageSize = 20;

@@ -5,6 +5,8 @@ import 'package:books_online/features/auth/presentation/page/login.dart';
 import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/home/presentation/pages/home_detail.dart';
 import 'package:books_online/features/home/presentation/pages/home_page.dart';
+import 'package:books_online/features/profile/presentation/page/change_password_page.dart';
+import 'package:books_online/features/profile/presentation/page/profile_page.dart';
 import 'package:books_online/features/search/presentation/page/search.dart';
 import 'package:flutter/material.dart';
 
@@ -27,5 +29,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: HomeRoute.page, path: '/home', guards: [authGuard]),
 
     AutoRoute(page: HomeDetailRoute.page, path: '/home-detail/:id', guards: [authGuard]),
+
+    AutoRoute(page: ProfileRoute.page, path: '/profile', guards: [authGuard]),
+    AutoRoute(page: ChangePasswordRoute.page, path: '/change-password', guards: [authGuard]),
   ];
 }

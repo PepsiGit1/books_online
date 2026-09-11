@@ -52,6 +52,20 @@ import 'package:books_online/features/home/domain/usecase/subtitle_usecase.dart'
     as _i799;
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart'
     as _i141;
+import 'package:books_online/features/profile/data/datasource/remote/profile_remote_data_source.dart'
+    as _i826;
+import 'package:books_online/features/profile/data/repository/profile_repository_impl.dart'
+    as _i602;
+import 'package:books_online/features/profile/domain/repository/profile_repository.dart'
+    as _i760;
+import 'package:books_online/features/profile/domain/usecase/change_password_usecase.dart'
+    as _i661;
+import 'package:books_online/features/profile/domain/usecase/get_me_use_case.dart'
+    as _i695;
+import 'package:books_online/features/profile/domain/usecase/logout_usecase.dart'
+    as _i788;
+import 'package:books_online/features/profile/presentation/cubit/profile_cubit.dart'
+    as _i768;
 import 'package:books_online/features/search/data/data_source/remote/remote_data_source.dart'
     as _i635;
 import 'package:books_online/features/search/data/repository_impl/search_repository_impl.dart'
@@ -96,11 +110,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i458.PaymentRemoteDataSource>(
       () => _i458.PaymentRemoteDataSourceImpl(gh<_i964.ApiClient>()),
     );
+    gh.lazySingleton<_i826.ProfileRemoteDataSource>(
+      () => _i826.ProfileRemoteDataSourceImpl(gh<_i964.ApiClient>()),
+    );
     gh.lazySingleton<_i635.SearchRemoteDataSource>(
       () => _i635.SearchRemoteDataSourceImpl(gh<_i964.ApiClient>()),
     );
     gh.lazySingleton<_i946.AuthRemoteDataSource>(
       () => _i946.AuthRemoteDataSourceImpl(gh<_i964.ApiClient>()),
+    );
+    gh.lazySingleton<_i760.ProfileRepository>(
+      () => _i602.ProfileRepositoryImpl(
+        gh<_i826.ProfileRemoteDataSource>(),
+        gh<_i291.AuthLocalDataSource>(),
+      ),
     );
     gh.lazySingleton<_i882.AuthRepository>(
       () => _i713.AuthRepositoryImpl(
@@ -131,6 +154,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i464.SearchBooksUseCase>(
       () => _i464.SearchBooksUseCase(gh<_i395.SearchRepository>()),
+    );
+    gh.lazySingleton<_i695.GetMeUseCase>(
+      () => _i695.GetMeUseCase(gh<_i760.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i788.LogoutUseCase>(
+      () => _i788.LogoutUseCase(gh<_i760.ProfileRepository>()),
+    );
+    gh.lazySingleton<_i661.ChangePasswordUseCase>(
+      () => _i661.ChangePasswordUseCase(gh<_i760.ProfileRepository>()),
     );
     gh.lazySingleton<_i647.RefreshTokenUseCase>(
       () => _i647.RefreshTokenUseCase(gh<_i882.AuthRepository>()),
@@ -166,6 +198,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i272.GetBookDetailUsecase>(),
         gh<_i799.GetBookSubtitleUsecase>(),
         gh<_i569.GetAllCategoriesUsecase>(),
+      ),
+    );
+    gh.factory<_i768.ProfileCubit>(
+      () => _i768.ProfileCubit(
+        gh<_i695.GetMeUseCase>(),
+        gh<_i788.LogoutUseCase>(),
+        gh<_i661.ChangePasswordUseCase>(),
       ),
     );
     return this;

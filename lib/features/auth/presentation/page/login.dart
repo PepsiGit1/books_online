@@ -97,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                     AppButton(
                       text: 'Login',
                       isLoading: state.status == Status.loading,
+                      backgroundColor: Colors.black,
                       onPressed: () {
                         final valid = _formKey.currentState?.saveAndValidate();
 
