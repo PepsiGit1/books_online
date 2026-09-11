@@ -1,15 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:books_online/core/config/config.dart';
-import 'package:books_online/core/enum/status.dart';
 import 'package:books_online/core/routing/router.dart';
-import 'package:books_online/core/widgets/app_button.dart';
 import 'package:books_online/core/widgets/app_text_from_field.dart';
-import 'package:books_online/core/widgets/error_view.dart';
-import 'package:books_online/core/widgets/loading_indicator.dart';
-import 'package:books_online/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+import 'package:books_online/core/enum/status.dart';
+import 'package:books_online/core/widgets/app_button.dart';
+import 'package:books_online/features/auth/presentation/cubit/auth_cubit.dart';
 
 @RoutePage()
 class LoginPage extends StatefulWidget implements AutoRouteWrapper {
@@ -38,27 +37,12 @@ class _LoginPageState extends State<LoginPage> {
               if (state.status == Status.success) {
                 context.router.replace(const HomeRoute());
               }
-            },
-            builder: (context, state) {
-              if (state.status == Status.loading) {
-                return const LoadingIndicator(message: 'Logging in...');
-              }
 
               if (state.status == Status.failure) {
-                return ErrorView(
-                  message: state.mess,
-                  onRetry: () {
-                    _formKey.currentState?.saveAndValidate();
-
-                    final values = _formKey.currentState?.value;
-
-                    if (values == null) return;
-
-                    context.read<AuthCubit>().login(email: values['email'] as String, password: values['password'] as String);
-                  },
-                );
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.mess)));
               }
-
+            },
+            builder: (context, state) {
               return FormBuilder(
                 key: _formKey,
                 child: Column(
@@ -112,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     AppButton(
                       text: 'Login',
+                      isLoading: state.status == Status.loading,
                       onPressed: () {
                         final valid = _formKey.currentState?.saveAndValidate();
 

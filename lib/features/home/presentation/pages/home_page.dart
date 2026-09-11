@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:books_online/core/config/config.dart';
 import 'package:books_online/core/theme/app_colors.dart';
+import 'package:books_online/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart';
 import 'package:books_online/features/search/presentation/cubit/search_cubit.dart';
 import 'package:books_online/features/search/presentation/page/search.dart';
@@ -32,6 +33,7 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
                     ..getDefaultBooks()
                     ..getCategories(),
         ),
+        BlocProvider(create: (_) => getIt<AuthCubit>()..checkAuth()),
       ],
       child: this,
     );

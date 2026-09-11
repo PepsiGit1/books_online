@@ -21,7 +21,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserModel {
-  int get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
 
   /// Serializes this UserModel to a JSON map.
@@ -39,7 +39,7 @@ abstract class $UserModelCopyWith<$Res> {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
-  $Res call({int id, String email});
+  $Res call({String id, String email});
 }
 
 /// @nodoc
@@ -63,7 +63,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
                 null == id
                     ? _value.id
                     : id // ignore: cast_nullable_to_non_nullable
-                        as int,
+                        as String,
             email:
                 null == email
                     ? _value.email
@@ -84,7 +84,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
   ) = __$$UserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String email});
+  $Res call({String id, String email});
 }
 
 /// @nodoc
@@ -107,7 +107,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
             null == id
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
-                    as int,
+                    as String,
         email:
             null == email
                 ? _value.email
@@ -127,7 +127,7 @@ class _$UserModelImpl implements _UserModel {
       _$$UserModelImplFromJson(json);
 
   @override
-  final int id;
+  final String id;
   @override
   final String email;
 
@@ -165,7 +165,7 @@ class _$UserModelImpl implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel({
-    required final int id,
+    required final String id,
     required final String email,
   }) = _$UserModelImpl;
 
@@ -173,7 +173,7 @@ abstract class _UserModel implements UserModel {
       _$UserModelImpl.fromJson;
 
   @override
-  int get id;
+  String get id;
   @override
   String get email;
 

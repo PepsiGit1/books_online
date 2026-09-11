@@ -11,6 +11,22 @@
 part of 'router.dart';
 
 /// generated route for
+/// [AuthCheckPage]
+class AuthCheckRoute extends PageRouteInfo<void> {
+  const AuthCheckRoute({List<PageRouteInfo>? children})
+    : super(AuthCheckRoute.name, initialChildren: children);
+
+  static const String name = 'AuthCheckRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const AuthCheckPage());
+    },
+  );
+}
+
+/// generated route for
 /// [HomeDetailPage]
 class HomeDetailRoute extends PageRouteInfo<HomeDetailRouteArgs> {
   HomeDetailRoute({
@@ -61,6 +77,22 @@ class HomeRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return WrappedRoute(child: const HomePage());
+    },
+  );
+}
+
+/// generated route for
+/// [LoginPage]
+class LoginRoute extends PageRouteInfo<void> {
+  const LoginRoute({List<PageRouteInfo>? children})
+    : super(LoginRoute.name, initialChildren: children);
+
+  static const String name = 'LoginRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const LoginPage());
     },
   );
 }
