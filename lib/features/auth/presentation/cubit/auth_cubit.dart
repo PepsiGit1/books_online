@@ -77,31 +77,19 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> checkAuth() async {
     if (isClosed) return;
 
-    print('AUTH CHECK: START');
-
     emit(state.copyWith(status: Status.loading, mess: ''));
 
-    print('AUTH CHECK: calling refresh token');
-
     final result = await _refreshTokenUseCase();
-
-    print('AUTH CHECK: refresh completed');
-    print('AUTH CHECK: success = ${result.isSuccess}');
-    print('AUTH CHECK: error = ${result.error}');
 
     if (isClosed) return;
 
     if (result.isSuccess && result.data != null) {
       final auth = result.data!;
 
-      print('AUTH CHECK: SUCCESS');
-
       emit(state.copyWith(status: Status.success, user: auth.user, accessToken: auth.accessToken, mess: ''));
 
       return;
     }
-
-    print('AUTH CHECK: FAILURE');
 
     emit(state.copyWith(status: Status.failure, user: null, accessToken: null, mess: result.error ?? 'Authentication failed.'));
   }
