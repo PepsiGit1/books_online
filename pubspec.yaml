@@ -39,6 +39,7 @@ dependencies:
   cookie_jar: ^4.0.9
   dio_cookie_manager: ^3.5.0
   flutter_form_builder: ^10.0.1
+  awesome_dialog: ^3.2.1
 
 dev_dependencies:
   flutter_test:

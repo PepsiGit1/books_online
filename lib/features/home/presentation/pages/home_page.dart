@@ -3,6 +3,8 @@ import 'package:books_online/core/config/config.dart';
 import 'package:books_online/core/theme/app_colors.dart';
 import 'package:books_online/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart';
+import 'package:books_online/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:books_online/features/profile/presentation/page/profile_page.dart';
 import 'package:books_online/features/search/presentation/cubit/search_cubit.dart';
 import 'package:books_online/features/search/presentation/page/search.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +36,13 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
                     ..getCategories(),
         ),
         BlocProvider(create: (_) => getIt<AuthCubit>()..checkAuth()),
+        BlocProvider(create: (_) => getIt<ProfileCubit>()..getMe()),
       ],
       child: this,
     );
   }
 
-  static const List<Widget> pages = [HomeContent(), SearchPage(), Center(child: Text('favor')), Center(child: Text('Profile'))];
+  static const List<Widget> pages = [HomeContent(), SearchPage(), Center(child: Text('favor')), Center(child: ProfilePage())];
 
   @override
   Widget build(BuildContext context) {
