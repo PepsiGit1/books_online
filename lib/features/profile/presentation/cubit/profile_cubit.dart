@@ -1,8 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:books_online/core/enum/status.dart';
+import 'package:books_online/features/profile/data/model/payment_history_model.dart';
+import 'package:books_online/features/profile/data/model/payment_meta_model.dart';
 import 'package:books_online/features/profile/data/model/user_model.dart';
 import 'package:books_online/features/profile/domain/usecase/change_password_usecase.dart';
 import 'package:books_online/features/profile/domain/usecase/get_me_use_case.dart';
+import 'package:books_online/features/profile/domain/usecase/get_my_payment_usecase.dart';
 import 'package:books_online/features/profile/domain/usecase/logout_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -17,7 +20,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   final GetMeUseCase _getMeUseCase;
   final LogoutUseCase _logoutUseCase;
   final ChangePasswordUseCase _changePasswordUseCase;
-  ProfileCubit(this._getMeUseCase, this._logoutUseCase, this._changePasswordUseCase) : super(ProfileState());
+  final GetPaymentHistory _getMyPaymentHistory;
+  ProfileCubit(this._getMeUseCase, this._logoutUseCase, this._changePasswordUseCase, this._getMyPaymentHistory) : super(ProfileState());
 
   final formKey = GlobalKey<FormBuilderState>();
 
@@ -66,6 +70,18 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(state.copyWith(isChangingPassword: false, changePasswordSuccess: true, mess: ''));
     } else {
       emit(state.copyWith(isChangingPassword: false, changePasswordSuccess: false, mess: result.error ?? 'Failed to change password.'));
+    }
+  }
+
+  Future<void> getMyPaymentHistory({int page = 1, int limit = 20}) async {
+    emit(state.copyWith(status: Status.loading, mess: ''));
+
+    final response = await _getMyPaymentHistory(page: page, limit: limit);
+
+    if (response.data != null) {
+      emit(state.copyWith(status: Status.success, payments: response.data!.data, paymentMeta: response.data!.meta, mess: ''));
+    } else {
+      emit(state.copyWith(status: Status.error, mess: 'Failed to load payment history'));
     }
   }
 }

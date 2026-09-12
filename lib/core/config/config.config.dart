@@ -80,6 +80,8 @@ import 'package:books_online/features/profile/domain/usecase/change_password_use
     as _i661;
 import 'package:books_online/features/profile/domain/usecase/get_me_use_case.dart'
     as _i695;
+import 'package:books_online/features/profile/domain/usecase/get_my_payment_usecase.dart'
+    as _i59;
 import 'package:books_online/features/profile/domain/usecase/logout_usecase.dart'
     as _i788;
 import 'package:books_online/features/profile/presentation/cubit/profile_cubit.dart'
@@ -205,6 +207,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i661.ChangePasswordUseCase>(
       () => _i661.ChangePasswordUseCase(gh<_i760.ProfileRepository>()),
     );
+    gh.factory<_i59.GetPaymentHistory>(
+      () => _i59.GetPaymentHistory(gh<_i760.ProfileRepository>()),
+    );
     gh.lazySingleton<_i647.RefreshTokenUseCase>(
       () => _i647.RefreshTokenUseCase(gh<_i882.AuthRepository>()),
     );
@@ -223,6 +228,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i882.GenerateJdbQrUseCase>(),
         gh<_i333.GenerateIbQrUseCase>(),
         gh<_i601.ListenPaymentStatusUseCase>(),
+      ),
+    );
+    gh.factory<_i768.ProfileCubit>(
+      () => _i768.ProfileCubit(
+        gh<_i695.GetMeUseCase>(),
+        gh<_i788.LogoutUseCase>(),
+        gh<_i661.ChangePasswordUseCase>(),
+        gh<_i59.GetPaymentHistory>(),
       ),
     );
     gh.factory<_i935.SearchCubit>(
@@ -247,13 +260,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i272.GetBookDetailUsecase>(),
         gh<_i799.GetBookSubtitleUsecase>(),
         gh<_i569.GetAllCategoriesUsecase>(),
-      ),
-    );
-    gh.factory<_i768.ProfileCubit>(
-      () => _i768.ProfileCubit(
-        gh<_i695.GetMeUseCase>(),
-        gh<_i788.LogoutUseCase>(),
-        gh<_i661.ChangePasswordUseCase>(),
       ),
     );
     return this;

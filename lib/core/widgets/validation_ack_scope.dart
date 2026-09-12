@@ -21,12 +21,7 @@ import 'package:flutter/material.dart';
 /// final errors = _controller.errors; // show banner
 /// ```
 class ValidationAckScope extends InheritedWidget {
-  const ValidationAckScope({
-    super.key,
-    required this.controller,
-    required super.child,
-    this.hideInlineErrors = false,
-  });
+  const ValidationAckScope({super.key, required this.controller, required super.child, this.hideInlineErrors = false});
 
   final ValidationAckController controller;
 
@@ -34,13 +29,10 @@ class ValidationAckScope extends InheritedWidget {
   /// push the message into [controller].
   final bool hideInlineErrors;
 
-  static ValidationAckScope? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ValidationAckScope>();
+  static ValidationAckScope? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ValidationAckScope>();
 
   @override
-  bool updateShouldNotify(ValidationAckScope oldWidget) =>
-      oldWidget.controller != controller ||
-      oldWidget.hideInlineErrors != hideInlineErrors;
+  bool updateShouldNotify(ValidationAckScope oldWidget) => oldWidget.controller != controller || oldWidget.hideInlineErrors != hideInlineErrors;
 }
 
 /// Controller that collects validation error strings from form fields.
@@ -61,4 +53,3 @@ class ValidationAckController extends ChangeNotifier {
     notifyListeners();
   }
 }
-

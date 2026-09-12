@@ -91,7 +91,8 @@ class ProfilePage extends StatelessWidget implements AutoRouteWrapper {
                                 icon: Icons.receipt_long_outlined,
                                 label: 'Payment History',
                                 onTap: () {
-                                  // TODO: context.router.push(PaymentHistoryRoute());
+                                  TODO:
+                                  context.router.push(PaymentHistoryRoute());
                                 },
                               ),
                             ],

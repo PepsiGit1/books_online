@@ -21,7 +21,7 @@ class AuthCheckRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return WrappedRoute(child: const AuthCheckPage());
+      return const AuthCheckPage();
     },
   );
 }
@@ -109,6 +109,22 @@ class LoginRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return WrappedRoute(child: const LoginPage());
+    },
+  );
+}
+
+/// generated route for
+/// [PaymentHistoryPage]
+class PaymentHistoryRoute extends PageRouteInfo<void> {
+  const PaymentHistoryRoute({List<PageRouteInfo>? children})
+    : super(PaymentHistoryRoute.name, initialChildren: children);
+
+  static const String name = 'PaymentHistoryRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const PaymentHistoryPage());
     },
   );
 }

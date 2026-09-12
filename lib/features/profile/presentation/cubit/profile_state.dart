@@ -10,5 +10,7 @@ class ProfileState with _$ProfileState {
     @Default(false) bool logoutSuccess,
     @Default(false) bool isChangingPassword,
     @Default(false) bool changePasswordSuccess,
+    @Default([]) List<PaymentHistoryModel> payments,
+    PaymentMetaModel? paymentMeta,
   }) = _ProfileState;
 }

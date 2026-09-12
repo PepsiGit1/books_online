@@ -1,6 +1,7 @@
 import 'package:books_online/core/api/api_response.dart';
 import 'package:books_online/features/auth/%20data/datasource/local/auth_local_datasource.dart';
 import 'package:books_online/features/profile/data/datasource/remote/profile_remote_data_source.dart';
+import 'package:books_online/features/profile/data/model/payment_history_response_model.dart';
 import 'package:books_online/features/profile/data/model/user_model.dart';
 import 'package:books_online/features/profile/domain/repository/profile_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -31,5 +32,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<ApiResponse<bool>> changePassword({required String currentPassword, required String newPassword}) {
     return remoteDataSource.changePassword(currentPassword: currentPassword, newPassword: newPassword);
+  }
+
+  @override
+  Future<ApiResponse<PaymentHistoryResponseModel>> getPaymentHistory({int page = 1, int limit = 20}) {
+    return remoteDataSource.getPaymentHistory(page: page, limit: limit);
   }
 }
