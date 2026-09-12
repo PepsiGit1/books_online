@@ -12,4 +12,5 @@ class EnvLoader {
   }
 
   static String get apiBaseUrl => dotenv.maybeGet('API_BASE_URL') ?? 'https://api.example.com';
+  static String get socketUrl => dotenv.maybeGet('SOCKET_URL') ?? 'http://localhost:8000';
 }

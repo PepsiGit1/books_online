@@ -30,14 +30,22 @@ import 'package:books_online/features/auth/domain/usecase/register_usecase.dart'
     as _i80;
 import 'package:books_online/features/auth/presentation/cubit/auth_cubit.dart'
     as _i63;
+import 'package:books_online/features/home/data/data_source/remote/payment_realtime_data_source.dart'
+    as _i322;
+import 'package:books_online/features/home/data/data_source/remote/payment_remote_data_source.dart'
+    as _i362;
 import 'package:books_online/features/home/data/data_source/remote/remote_data_source.dart'
     as _i458;
 import 'package:books_online/features/home/data/repository/book_repository_impl.dart'
     as _i75;
+import 'package:books_online/features/home/data/repository/payment_repository_bank_impl.dart'
+    as _i986;
 import 'package:books_online/features/home/data/repository/payment_repository_impl.dart'
     as _i479;
 import 'package:books_online/features/home/domain/repository/book_repository.dart'
     as _i827;
+import 'package:books_online/features/home/domain/repository/payment_bank_repository.dart'
+    as _i766;
 import 'package:books_online/features/home/domain/repository/payment_repository.dart'
     as _i391;
 import 'package:books_online/features/home/domain/usecase/book_detail_usecase.dart'
@@ -48,8 +56,18 @@ import 'package:books_online/features/home/domain/usecase/category_usecase.dart'
     as _i569;
 import 'package:books_online/features/home/domain/usecase/create_paypal_order.dart'
     as _i403;
+import 'package:books_online/features/home/domain/usecase/generate_bcel_qr_use_case.dart'
+    as _i821;
+import 'package:books_online/features/home/domain/usecase/generate_ib_qr_use_case.dart'
+    as _i333;
+import 'package:books_online/features/home/domain/usecase/generate_jdb_qr_use_case.dart'
+    as _i882;
+import 'package:books_online/features/home/domain/usecase/listen_payment_status_use_case.dart'
+    as _i601;
 import 'package:books_online/features/home/domain/usecase/subtitle_usecase.dart'
     as _i799;
+import 'package:books_online/features/home/presentation/cubit/cubit_bank/payment_cubit.dart'
+    as _i289;
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart'
     as _i141;
 import 'package:books_online/features/profile/data/datasource/remote/profile_remote_data_source.dart'
@@ -98,14 +116,25 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i560.AppConfig>(() => appConfigModule.appConfig);
+    gh.lazySingleton<_i322.PaymentRealtimeDataSource>(
+      () => _i322.PaymentRealtimeDataSourceImpl(),
+    );
     gh.lazySingleton<_i291.AuthLocalDataSource>(
       () => _i291.AuthLocalDataSourceImpl(gh<_i917.LocalStorage>()),
+    );
+    gh.lazySingleton<_i601.ListenPaymentStatusUseCase>(
+      () => _i601.ListenPaymentStatusUseCase(
+        gh<_i322.PaymentRealtimeDataSource>(),
+      ),
     );
     gh.lazySingleton<_i964.ApiClient>(
       () => _i964.ApiClient(gh<_i560.AppConfig>()),
     );
     gh.lazySingleton<_i624.AuthGuard>(
       () => _i624.AuthGuard(gh<_i291.AuthLocalDataSource>()),
+    );
+    gh.lazySingleton<_i362.PaymentRemoteDataSource>(
+      () => _i362.PaymentRemoteDataSourceImpl(gh<_i964.ApiClient>()),
     );
     gh.lazySingleton<_i458.PaymentRemoteDataSource>(
       () => _i458.PaymentRemoteDataSourceImpl(gh<_i964.ApiClient>()),
@@ -118,6 +147,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i946.AuthRemoteDataSource>(
       () => _i946.AuthRemoteDataSourceImpl(gh<_i964.ApiClient>()),
+    );
+    gh.lazySingleton<_i766.PaymentRepository>(
+      () => _i986.PaymentRepositoryImpl(gh<_i362.PaymentRemoteDataSource>()),
     );
     gh.lazySingleton<_i760.ProfileRepository>(
       () => _i602.ProfileRepositoryImpl(
@@ -155,6 +187,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i464.SearchBooksUseCase>(
       () => _i464.SearchBooksUseCase(gh<_i395.SearchRepository>()),
     );
+    gh.lazySingleton<_i333.GenerateIbQrUseCase>(
+      () => _i333.GenerateIbQrUseCase(gh<_i766.PaymentRepository>()),
+    );
+    gh.lazySingleton<_i882.GenerateJdbQrUseCase>(
+      () => _i882.GenerateJdbQrUseCase(gh<_i766.PaymentRepository>()),
+    );
+    gh.lazySingleton<_i821.GenerateBcelQrUseCase>(
+      () => _i821.GenerateBcelQrUseCase(gh<_i766.PaymentRepository>()),
+    );
     gh.lazySingleton<_i695.GetMeUseCase>(
       () => _i695.GetMeUseCase(gh<_i760.ProfileRepository>()),
     );
@@ -175,6 +216,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i403.CreatePaypalOrder>(
       () => _i403.CreatePaypalOrder(gh<_i391.PaymentRepository>()),
+    );
+    gh.factory<_i289.PaymentCubit>(
+      () => _i289.PaymentCubit(
+        gh<_i821.GenerateBcelQrUseCase>(),
+        gh<_i882.GenerateJdbQrUseCase>(),
+        gh<_i333.GenerateIbQrUseCase>(),
+        gh<_i601.ListenPaymentStatusUseCase>(),
+      ),
     );
     gh.factory<_i935.SearchCubit>(
       () => _i935.SearchCubit(

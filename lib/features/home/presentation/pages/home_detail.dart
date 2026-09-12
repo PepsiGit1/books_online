@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:books_online/core/config/config.dart';
 import 'package:books_online/core/constants/api_endpoints.dart';
+import 'package:books_online/core/routing/router.dart';
 import 'package:books_online/core/theme/app_colors.dart';
 import 'package:books_online/core/utils/format_duration.dart';
 import 'package:books_online/core/widgets/bottom_sheet.dart';
@@ -8,6 +9,7 @@ import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/home/data/model/create_paypal_order_model.dart';
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart';
 import 'package:books_online/features/home/presentation/widgets/audio_reading.dart';
+import 'package:books_online/features/home/presentation/cubit/cubit_bank/payment_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +18,10 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
   final BookModel book;
   @override
   Widget wrappedRoute(BuildContext context) {
-    return MultiBlocProvider(providers: [BlocProvider(create: (_) => getIt<HomeCubit>()..loadBookDetail(book))], child: this);
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (_) => getIt<HomeCubit>()..loadBookDetail(book)), BlocProvider(create: (_) => getIt<PaymentCubit>())],
+      child: this,
+    );
   }
 
   const HomeDetailPage({super.key, required this.book});
@@ -37,19 +42,103 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
               onPressed: () {
                 showPaymentPopup(
                   context,
-                  onBcelPayment: () {
-                    debugPrint('BCEL payment');
-                  },
-                  onPayPalPayment: () {
-                    final paypal = CreatePaypalOrderModel(
-                      value: book.price.toStringAsFixed(2),
-                      referenceId: book.productId,
-                      description: book.title,
-                      customId: 'book_${book.id}',
-                    );
+                  methods: [
+                    PaymentMethod(
+                      title: 'BCEL OnePay',
+                      subtitle: 'Pay with BCEL OnePay',
+                      icon: const Icon(Icons.qr_code_scanner_sharp, color: Colors.red),
+                      onTap: () async {
+                        final paymentCubit = context.read<PaymentCubit>();
 
-                    cubit.createPaymentPayPal(paypal);
-                  },
+                        final payment = await paymentCubit.generateBcelQr(amount: book.price);
+
+                        if (!context.mounted) return;
+
+                        if (payment == null) {
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(paymentCubit.state.mess.isNotEmpty ? paymentCubit.state.mess : 'Payment failed')));
+
+                          return;
+                        }
+
+                        final transactionId = payment.transactionId;
+
+                        if (transactionId == null || transactionId.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid transaction ID')));
+
+                          return;
+                        }
+
+                        await context.router.push(PaymentRoute(payment: payment, book: book));
+                      },
+                    ),
+
+                    PaymentMethod(
+                      title: 'JDB',
+                      subtitle: 'Pay with JDB',
+                      icon: const Icon(Icons.account_balance, color: Colors.blue),
+                      onTap: () async {
+                        final paymentCubit = context.read<PaymentCubit>();
+
+                        final payment = await paymentCubit.generateJdbQr(amount: book.price);
+
+                        if (!context.mounted) return;
+
+                        if (payment == null) {
+                          ScaffoldMessenger.of(
+                            context,
+                          ).showSnackBar(SnackBar(content: Text(paymentCubit.state.mess.isNotEmpty ? paymentCubit.state.mess : 'Payment failed')));
+
+                          return;
+                        }
+
+                        final transactionId = payment.transactionId;
+
+                        if (transactionId == null || transactionId.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invalid transaction ID')));
+
+                          return;
+                        }
+
+                        await context.router.push(PaymentRoute(payment: payment, book: book));
+                      },
+                    ),
+
+                    PaymentMethod(
+                      title: 'IB',
+                      subtitle: 'Pay with IB',
+                      icon: const Icon(Icons.account_balance, color: Colors.green),
+                      onTap: () {
+                        // IB payment
+                      },
+                    ),
+
+                    PaymentMethod(
+                      title: 'PayPal',
+                      subtitle: 'Pay with PayPal',
+                      icon: const Icon(Icons.paypal, color: Colors.blue),
+                      onTap: () {
+                        final paypal = CreatePaypalOrderModel(
+                          value: book.price.toStringAsFixed(2),
+                          referenceId: book.productId,
+                          description: book.title,
+                          customId: 'book_${book.id}',
+                        );
+
+                        cubit.createPaymentPayPal(paypal);
+                      },
+                    ),
+
+                    PaymentMethod(
+                      title: 'Other Payment',
+                      subtitle: 'Pay with another method',
+                      icon: const Icon(Icons.payment, color: Colors.orange),
+                      onTap: () {
+                        // Fifth payment
+                      },
+                    ),
+                  ],
                 );
               },
               icon: const Icon(Icons.payment),

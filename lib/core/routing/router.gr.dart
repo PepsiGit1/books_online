@@ -37,7 +37,7 @@ class ChangePasswordRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const ChangePasswordPage();
+      return WrappedRoute(child: const ChangePasswordPage());
     },
   );
 }
@@ -111,6 +111,89 @@ class LoginRoute extends PageRouteInfo<void> {
       return WrappedRoute(child: const LoginPage());
     },
   );
+}
+
+/// generated route for
+/// [PaymentPage]
+class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
+  PaymentRoute({
+    Key? key,
+    required PaymentModel payment,
+    required BookModel book,
+    List<PageRouteInfo>? children,
+  }) : super(
+         PaymentRoute.name,
+         args: PaymentRouteArgs(key: key, payment: payment, book: book),
+         initialChildren: children,
+       );
+
+  static const String name = 'PaymentRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<PaymentRouteArgs>();
+      return WrappedRoute(
+        child: PaymentPage(
+          key: args.key,
+          payment: args.payment,
+          book: args.book,
+        ),
+      );
+    },
+  );
+}
+
+class PaymentRouteArgs {
+  const PaymentRouteArgs({this.key, required this.payment, required this.book});
+
+  final Key? key;
+
+  final PaymentModel payment;
+
+  final BookModel book;
+
+  @override
+  String toString() {
+    return 'PaymentRouteArgs{key: $key, payment: $payment, book: $book}';
+  }
+}
+
+/// generated route for
+/// [PaymentSuccessPage]
+class PaymentSuccessRoute extends PageRouteInfo<PaymentSuccessRouteArgs> {
+  PaymentSuccessRoute({
+    Key? key,
+    required BookModel book,
+    List<PageRouteInfo>? children,
+  }) : super(
+         PaymentSuccessRoute.name,
+         args: PaymentSuccessRouteArgs(key: key, book: book),
+         initialChildren: children,
+       );
+
+  static const String name = 'PaymentSuccessRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<PaymentSuccessRouteArgs>();
+      return PaymentSuccessPage(key: args.key, book: args.book);
+    },
+  );
+}
+
+class PaymentSuccessRouteArgs {
+  const PaymentSuccessRouteArgs({this.key, required this.book});
+
+  final Key? key;
+
+  final BookModel book;
+
+  @override
+  String toString() {
+    return 'PaymentSuccessRouteArgs{key: $key, book: $book}';
+  }
 }
 
 /// generated route for

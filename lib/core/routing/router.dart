@@ -5,6 +5,9 @@ import 'package:books_online/features/auth/presentation/page/login.dart';
 import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/home/presentation/pages/home_detail.dart';
 import 'package:books_online/features/home/presentation/pages/home_page.dart';
+import 'package:books_online/features/home/data/model/payment_model.dart';
+import 'package:books_online/features/home/presentation/pages/payment_page.dart';
+import 'package:books_online/features/home/presentation/pages/payment_success_page.dart';
 import 'package:books_online/features/profile/presentation/page/change_password_page.dart';
 import 'package:books_online/features/profile/presentation/page/profile_page.dart';
 import 'package:books_online/features/search/presentation/page/search.dart';
@@ -32,5 +35,6 @@ class AppRouter extends RootStackRouter {
 
     AutoRoute(page: ProfileRoute.page, path: '/profile', guards: [authGuard]),
     AutoRoute(page: ChangePasswordRoute.page, path: '/change-password', guards: [authGuard]),
+    AutoRoute(page: PaymentRoute.page, path: '/payment', guards: [authGuard]),
   ];
 }

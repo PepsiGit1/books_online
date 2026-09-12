@@ -49,6 +49,10 @@
 	<dict>
     <key>NSAllowsArbitraryLoads</key>
     <true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+    <string>onepay</string>
+</array>
 </dict>
 </dict>
 </plist>
