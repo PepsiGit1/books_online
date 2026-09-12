@@ -66,24 +66,15 @@ class PaymentCubit extends Cubit<PaymentState> {
 
   void listenPaymentStatus({required String transactionId}) {
     _paymentSubscription?.cancel();
-
     if (transactionId.isEmpty) {
       emit(state.copyWith(paymentStatus: PaymentStatus.failed, mess: 'Invalid transaction ID.'));
       return;
     }
-
     emit(state.copyWith(paymentStatus: PaymentStatus.pending, mess: ''));
-
-    print('📡 Listening payment: $transactionId');
-
     _paymentSubscription = _listenPaymentStatus(transactionId: transactionId).listen(
       _handlePaymentEvent,
       onError: (error) {
         if (isClosed) return;
-
-        print('⚠️ Payment socket error: $error');
-
-        // DO NOT mark payment as failed.
         emit(state.copyWith(paymentStatus: PaymentStatus.pending, mess: 'Connection lost. Waiting for payment confirmation...'));
       },
     );
@@ -91,19 +82,11 @@ class PaymentCubit extends Cubit<PaymentState> {
 
   void _handlePaymentEvent(Map<String, dynamic> data) {
     if (isClosed) return;
-
-    print('💰 PAYMENT STATUS: $data');
-
-    final transactionId = data['transactionId']?.toString();
-
     final status = data['status']?.toString().toUpperCase();
-
-    print('Transaction: $transactionId');
-    print('Status: $status');
-
     switch (status) {
       case 'PAID':
       case 'SUCCESS':
+      case 'PAYMENT_COMPLETED':
         emit(state.copyWith(paymentStatus: PaymentStatus.paid, mess: ''));
 
         _paymentSubscription?.cancel();
@@ -112,6 +95,7 @@ class PaymentCubit extends Cubit<PaymentState> {
 
       case 'FAILED':
       case 'CANCELLED':
+      case 'PAYMENT_FAILED':
         emit(state.copyWith(paymentStatus: PaymentStatus.failed, mess: data['message']?.toString() ?? 'Payment failed.'));
 
         _paymentSubscription?.cancel();

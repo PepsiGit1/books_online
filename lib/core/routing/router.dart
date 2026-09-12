@@ -25,16 +25,18 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     AutoRoute(page: AuthCheckRoute.page, path: '/', initial: true),
 
-    // DON'T guard LoginRoute
     AutoRoute(page: LoginRoute.page, path: '/login'),
 
-    // Guard authenticated pages
     AutoRoute(page: HomeRoute.page, path: '/home', guards: [authGuard]),
 
     AutoRoute(page: HomeDetailRoute.page, path: '/home-detail/:id', guards: [authGuard]),
 
     AutoRoute(page: ProfileRoute.page, path: '/profile', guards: [authGuard]),
+
     AutoRoute(page: ChangePasswordRoute.page, path: '/change-password', guards: [authGuard]),
+
     AutoRoute(page: PaymentRoute.page, path: '/payment', guards: [authGuard]),
+
+    AutoRoute(page: PaymentSuccessRoute.page, path: '/payment/success', guards: [authGuard]),
   ];
 }

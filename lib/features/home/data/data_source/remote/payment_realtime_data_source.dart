@@ -22,46 +22,41 @@ class PaymentRealtimeDataSourceImpl implements PaymentRealtimeDataSource {
     final controller = StreamController<Map<String, dynamic>>.broadcast();
 
     _controller = controller;
-
     final socket = io.io(
       EnvLoader.socketUrl,
-      io.OptionBuilder().setTransports(['polling', 'websocket']).enableReconnection().setTimeout(10000).build(),
+      io.OptionBuilder()
+          .setPath('/socket.io')
+          .setTransports(['websocket', 'polling'])
+          .disableAutoConnect()
+          .enableForceNew()
+          .setTimeout(30000)
+          .build(),
     );
 
     _socket = socket;
 
     socket.onConnect((_) {
-      print('✅ Payment Socket connected: ${socket.id}');
-
-      print('📡 Subscribe transaction: $transactionId');
-
       socket.emit('payment:subscribe', {'transactionId': transactionId});
     });
 
-    socket.on('payment:status', (data) {
-      print('💰 PAYMENT STATUS: $data');
+    socket.onConnectError((error) {
+      print('❌ CONNECT ERROR: $error');
+    });
 
-      if (data is Map) {
+    socket.onError((error) {
+      print('❌ SOCKET ERROR: $error');
+    });
+
+    socket.on('payment:status', (data) {
+      if (data is Map && !controller.isClosed) {
         controller.add(Map<String, dynamic>.from(data));
       }
     });
 
-    socket.onConnectError((error) {
-      print('❌ Payment socket connection error: $error');
-
-      if (!controller.isClosed) {
-        controller.addError(error);
-      }
-    });
-
-    socket.onError((error) {
-      print('❌ Payment socket error: $error');
-    });
-
     socket.onDisconnect((reason) {
-      print('⚠️ Payment socket disconnected: $reason');
+      print('⚠️ DISCONNECTED: $reason');
     });
-
+    socket.connect();
     return controller.stream;
   }
 
