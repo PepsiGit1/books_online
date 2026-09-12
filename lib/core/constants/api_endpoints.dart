@@ -30,6 +30,9 @@ class ApiEndpoints {
 
   static const String paymentIb = '$paymentBase/generate-ib-qr';
 
+  //payment history
+  static const String myPayment = '/payment/me';
+
   // book
   static const String book = '/book';
   static const String category = '/category';
