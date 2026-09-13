@@ -28,7 +28,7 @@ class AuthCheckPage extends StatelessWidget implements AutoRouteWrapper {
             context.router.replace(const LoginRoute());
           }
         },
-        child: const Center(child: CircularProgressIndicator()),
+        child: const SizedBox.shrink(),
       ),
     );
   }

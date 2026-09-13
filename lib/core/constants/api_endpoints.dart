@@ -1,7 +1,7 @@
 /// API endpoint constants
 class ApiEndpoints {
   ApiEndpoints._();
-  static const String baseUrl = 'http://localhost:8000';
+  static const String baseUrl = 'http://172.20.10.8:8000';
 
   // Auth
   static const String register = '/auth/register';
@@ -12,7 +12,7 @@ class ApiEndpoints {
 
   // User
   static const String profile = '/user/profile';
-  static const String updateProfile = '/user/profile';
+  static const String updateProfile = '/user/me';
 
   // Example endpoints - replace with your actual API
   static const String posts = '/posts';

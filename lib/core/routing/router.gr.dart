@@ -114,6 +114,22 @@ class LoginRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PaymentHistoryPage]
+class PaymentHistoryRoute extends PageRouteInfo<void> {
+  const PaymentHistoryRoute({List<PageRouteInfo>? children})
+    : super(PaymentHistoryRoute.name, initialChildren: children);
+
+  static const String name = 'PaymentHistoryRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const PaymentHistoryPage());
+    },
+  );
+}
+
+/// generated route for
 /// [PaymentPage]
 class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
   PaymentRoute({
@@ -224,6 +240,22 @@ class SearchRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return WrappedRoute(child: const SearchPage());
+    },
+  );
+}
+
+/// generated route for
+/// [UpdateProfilePage]
+class UpdateProfileRoute extends PageRouteInfo<void> {
+  const UpdateProfileRoute({List<PageRouteInfo>? children})
+    : super(UpdateProfileRoute.name, initialChildren: children);
+
+  static const String name = 'UpdateProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const UpdateProfilePage());
     },
   );
 }

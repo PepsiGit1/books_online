@@ -27,7 +27,7 @@ class HomeContent extends StatelessWidget {
               await context.read<HomeCubit>().getAllBooks();
             },
             child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
+              // physics: const AlwaysScrollableScrollPhysics(),
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),

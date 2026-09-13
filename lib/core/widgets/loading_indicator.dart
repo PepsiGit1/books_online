@@ -4,13 +4,8 @@ import '../utils/app_responsive.dart';
 
 /// Reusable loading indicator widget
 class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({
-    super.key,
-    this.size = 40.0,
-    this.color,
-    this.message,
-  });
-  
+  const LoadingIndicator({super.key, this.size = 40.0, this.color, this.message});
+
   final double size;
   final Color? color;
   final String? message;
@@ -25,22 +20,11 @@ class LoadingIndicator extends StatelessWidget {
           SizedBox(
             width: scaledSize,
             height: scaledSize,
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                color ?? Theme.of(context).colorScheme.primary,
-              ),
-            ),
+            child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(color ?? Theme.of(context).colorScheme.primary)),
           ),
-          if (message != null) ...[
-            context.rVSpace(16),
-            Text(
-              message!,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
+          if (message != null) ...[context.rVSpace(16), Text(message!, style: Theme.of(context).textTheme.bodyMedium)],
         ],
       ),
     );
   }
 }
-
