@@ -7,9 +7,11 @@ import 'package:books_online/features/profile/domain/usecase/change_password_use
 import 'package:books_online/features/profile/domain/usecase/get_me_use_case.dart';
 import 'package:books_online/features/profile/domain/usecase/get_my_payment_usecase.dart';
 import 'package:books_online/features/profile/domain/usecase/logout_usecase.dart';
+import 'package:books_online/features/profile/domain/usecase/update_profile_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
 part 'profile_state.dart';
@@ -21,23 +23,22 @@ class ProfileCubit extends Cubit<ProfileState> {
   final LogoutUseCase _logoutUseCase;
   final ChangePasswordUseCase _changePasswordUseCase;
   final GetPaymentHistory _getMyPaymentHistory;
-  ProfileCubit(this._getMeUseCase, this._logoutUseCase, this._changePasswordUseCase, this._getMyPaymentHistory) : super(ProfileState());
+  final UpdateProfileUseCase _updateProfileUseCase;
+  final ImagePicker _picker = ImagePicker();
+  ProfileCubit(this._getMeUseCase, this._logoutUseCase, this._changePasswordUseCase, this._getMyPaymentHistory, this._updateProfileUseCase)
+    : super(ProfileState());
 
   final formKey = GlobalKey<FormBuilderState>();
 
   Future<void> getMe() async {
-    if (isClosed) return;
-
-    emit(state.copyWith(status: Status.loading, mess: ''));
+    emit(state.copyWith(status: Status.loading));
 
     final result = await _getMeUseCase();
 
-    if (isClosed) return;
-
-    if (result.isSuccess && result.data != null) {
-      emit(state.copyWith(status: Status.success, user: result.data, mess: ''));
+    if (result.isSuccess) {
+      emit(state.copyWith(status: Status.success, user: result.data, name: result.data?.name ?? ''));
     } else {
-      emit(state.copyWith(status: Status.failure, mess: result.error ?? 'Failed to load profile.'));
+      emit(state.copyWith(status: Status.failure, mess: result.error ?? 'Failed to load profile'));
     }
   }
 
@@ -83,5 +84,29 @@ class ProfileCubit extends Cubit<ProfileState> {
     } else {
       emit(state.copyWith(status: Status.error, mess: 'Failed to load payment history'));
     }
+  }
+
+  Future<void> updateProfile() async {
+    emit(state.copyWith(updateStatus: Status.loading, mess: ''));
+
+    final result = await _updateProfileUseCase(name: state.name, imagePath: state.selectedImagePath);
+
+    if (result.isSuccess) {
+      emit(state.copyWith(updateStatus: Status.success, user: result.data));
+    } else {
+      emit(state.copyWith(updateStatus: Status.failure, mess: result.error ?? 'Update profile failed'));
+    }
+  }
+
+  Future<void> selectProfileImage() async {
+    final image = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
+
+    if (image == null) return;
+
+    emit(state.copyWith(selectedImagePath: image.path));
+  }
+
+  void nameChanged(String value) {
+    emit(state.copyWith(name: value));
   }
 }

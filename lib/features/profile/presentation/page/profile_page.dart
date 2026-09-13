@@ -106,7 +106,7 @@ class ProfilePage extends StatelessWidget implements AutoRouteWrapper {
                                 icon: Icons.edit_outlined,
                                 label: 'Edit Profile',
                                 onTap: () {
-                                  // TODO: context.router.push(EditProfileRoute());
+                                  context.router.push(UpdateProfileRoute());
                                 },
                               ),
                               MenuItemData(

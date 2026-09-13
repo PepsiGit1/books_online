@@ -24,7 +24,7 @@ class FormatUtils {
   static String amount(double amount) {
     final value = amount == amount.roundToDouble() ? amount.toInt().toString() : amount.toStringAsFixed(2);
 
-    return '\$ $value';
+    return '$value LAK';
   }
 
   static String day(DateTime date) {

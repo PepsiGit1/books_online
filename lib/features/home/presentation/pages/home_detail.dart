@@ -46,7 +46,7 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
                     PaymentMethod(
                       title: 'BCEL OnePay',
                       subtitle: 'Pay with BCEL OnePay',
-                      icon: const Icon(Icons.qr_code_scanner_sharp, color: Colors.red),
+                      icon: Image.asset('assets/logo/bcel.png', width: 40, height: 40, fit: BoxFit.contain),
                       onTap: () async {
                         final paymentCubit = context.read<PaymentCubit>();
 
@@ -77,7 +77,7 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
                     PaymentMethod(
                       title: 'JDB',
                       subtitle: 'Pay with JDB',
-                      icon: const Icon(Icons.account_balance, color: Colors.blue),
+                      icon: Image.asset('assets/logo/jdb.png', width: 40, height: 40, fit: BoxFit.contain),
                       onTap: () async {
                         final paymentCubit = context.read<PaymentCubit>();
 
@@ -108,7 +108,7 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
                     PaymentMethod(
                       title: 'IB',
                       subtitle: 'Pay with IB',
-                      icon: const Icon(Icons.account_balance, color: Colors.green),
+                      icon: Image.asset('assets/logo/indo.png', width: 40, height: 40, fit: BoxFit.contain),
                       onTap: () {
                         // IB payment
                       },
@@ -117,7 +117,7 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
                     PaymentMethod(
                       title: 'PayPal',
                       subtitle: 'Pay with PayPal',
-                      icon: const Icon(Icons.paypal, color: Colors.blue),
+                      icon: Image.asset('assets/logo/paypal-logo.png', width: 40, height: 40, fit: BoxFit.contain),
                       onTap: () {
                         final paypal = CreatePaypalOrderModel(
                           value: book.price.toStringAsFixed(2),

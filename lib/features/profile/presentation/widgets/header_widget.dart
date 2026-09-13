@@ -38,19 +38,6 @@ class HeaderWidget extends StatelessWidget {
                           : const Icon(Icons.person, size: 44, color: Colors.white54),
                 ),
               ),
-              Positioned(
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF3A3A3C),
-                    shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFF1C1C1E), width: 2),
-                  ),
-                  child: const Icon(Icons.camera_alt_outlined, size: 16, color: Colors.white),
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 14),

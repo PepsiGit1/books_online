@@ -11,6 +11,7 @@ import 'package:books_online/features/home/presentation/pages/payment_success_pa
 import 'package:books_online/features/profile/presentation/page/change_password_page.dart';
 import 'package:books_online/features/profile/presentation/page/payment_history_page.dart';
 import 'package:books_online/features/profile/presentation/page/profile_page.dart';
+import 'package:books_online/features/profile/presentation/page/update_profile_page.dart';
 import 'package:books_online/features/search/presentation/page/search.dart';
 import 'package:flutter/material.dart';
 
@@ -41,5 +42,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: PaymentSuccessRoute.page, path: '/payment/success', guards: [authGuard]),
 
     AutoRoute(page: PaymentHistoryRoute.page, path: '/payment/history', guards: [authGuard]),
+
+    AutoRoute(page: UpdateProfileRoute.page, path: '/profile/update', guards: [authGuard]),
   ];
 }

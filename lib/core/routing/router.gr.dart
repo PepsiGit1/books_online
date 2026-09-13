@@ -21,7 +21,7 @@ class AuthCheckRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const AuthCheckPage();
+      return WrappedRoute(child: const AuthCheckPage());
     },
   );
 }
@@ -240,6 +240,22 @@ class SearchRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return WrappedRoute(child: const SearchPage());
+    },
+  );
+}
+
+/// generated route for
+/// [UpdateProfilePage]
+class UpdateProfileRoute extends PageRouteInfo<void> {
+  const UpdateProfileRoute({List<PageRouteInfo>? children})
+    : super(UpdateProfileRoute.name, initialChildren: children);
+
+  static const String name = 'UpdateProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const UpdateProfilePage());
     },
   );
 }

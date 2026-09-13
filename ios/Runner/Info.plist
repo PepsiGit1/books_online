@@ -52,6 +52,10 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
     <string>onepay</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photos so you can select a profile picture.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need camera access so you can take a profile picture.</string>
 </array>
 </dict>
 </dict>

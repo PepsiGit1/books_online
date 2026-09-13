@@ -38,4 +38,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<ApiResponse<PaymentHistoryResponseModel>> getPaymentHistory({int page = 1, int limit = 20}) {
     return remoteDataSource.getPaymentHistory(page: page, limit: limit);
   }
+
+  @override
+  Future<ApiResponse<UserModel>> updateProfile({required String name, String? imagePath}) {
+    return remoteDataSource.updateProfile(name: name, imagePath: imagePath);
+  }
 }

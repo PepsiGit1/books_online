@@ -84,6 +84,8 @@ import 'package:books_online/features/profile/domain/usecase/get_my_payment_usec
     as _i59;
 import 'package:books_online/features/profile/domain/usecase/logout_usecase.dart'
     as _i788;
+import 'package:books_online/features/profile/domain/usecase/update_profile_usecase.dart'
+    as _i786;
 import 'package:books_online/features/profile/presentation/cubit/profile_cubit.dart'
     as _i768;
 import 'package:books_online/features/search/data/data_source/remote/remote_data_source.dart'
@@ -207,6 +209,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i661.ChangePasswordUseCase>(
       () => _i661.ChangePasswordUseCase(gh<_i760.ProfileRepository>()),
     );
+    gh.factory<_i786.UpdateProfileUseCase>(
+      () => _i786.UpdateProfileUseCase(gh<_i760.ProfileRepository>()),
+    );
     gh.factory<_i59.GetPaymentHistory>(
       () => _i59.GetPaymentHistory(gh<_i760.ProfileRepository>()),
     );
@@ -222,20 +227,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i403.CreatePaypalOrder>(
       () => _i403.CreatePaypalOrder(gh<_i391.PaymentRepository>()),
     );
-    gh.factory<_i289.PaymentCubit>(
-      () => _i289.PaymentCubit(
-        gh<_i821.GenerateBcelQrUseCase>(),
-        gh<_i882.GenerateJdbQrUseCase>(),
-        gh<_i333.GenerateIbQrUseCase>(),
-        gh<_i601.ListenPaymentStatusUseCase>(),
-      ),
-    );
     gh.factory<_i768.ProfileCubit>(
       () => _i768.ProfileCubit(
         gh<_i695.GetMeUseCase>(),
         gh<_i788.LogoutUseCase>(),
         gh<_i661.ChangePasswordUseCase>(),
         gh<_i59.GetPaymentHistory>(),
+        gh<_i786.UpdateProfileUseCase>(),
+      ),
+    );
+    gh.factory<_i289.PaymentCubit>(
+      () => _i289.PaymentCubit(
+        gh<_i821.GenerateBcelQrUseCase>(),
+        gh<_i882.GenerateJdbQrUseCase>(),
+        gh<_i333.GenerateIbQrUseCase>(),
+        gh<_i601.ListenPaymentStatusUseCase>(),
       ),
     );
     gh.factory<_i935.SearchCubit>(

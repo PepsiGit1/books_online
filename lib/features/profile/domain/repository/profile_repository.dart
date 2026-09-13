@@ -7,4 +7,5 @@ abstract class ProfileRepository {
   Future<ApiResponse<bool>> logout();
   Future<ApiResponse<bool>> changePassword({required String currentPassword, required String newPassword});
   Future<ApiResponse<PaymentHistoryResponseModel>> getPaymentHistory({int page = 1, int limit = 20});
+  Future<ApiResponse<UserModel>> updateProfile({required String name, String? imagePath});
 }
