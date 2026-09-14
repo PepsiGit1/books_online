@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:books_online/core/config/config.dart';
 import 'package:books_online/core/theme/app_colors.dart';
+import 'package:books_online/core/widgets/empty_view.dart';
 import 'package:books_online/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:books_online/features/home/presentation/cubit/home_cubit.dart';
 import 'package:books_online/features/profile/presentation/cubit/profile_cubit.dart';
@@ -42,7 +43,7 @@ class HomePage extends StatelessWidget implements AutoRouteWrapper {
     );
   }
 
-  static const List<Widget> pages = [HomeContent(), SearchPage(), Center(child: Text('favor')), Center(child: ProfilePage())];
+  static const List<Widget> pages = [HomeContent(), SearchPage(), EmptyView(), Center(child: ProfilePage())];
 
   @override
   Widget build(BuildContext context) {

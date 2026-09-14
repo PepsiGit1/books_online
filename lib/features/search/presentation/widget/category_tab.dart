@@ -23,11 +23,14 @@ class CategoryTabsWidget extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           final category = categories[index];
+
           final isSelected = category.id == selectedCategoryId;
 
           return InkWell(
             borderRadius: BorderRadius.circular(20),
-            onTap: () => onCategorySelected(category.id),
+            onTap: () {
+              onCategorySelected(category.id);
+            },
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeOutCubic,

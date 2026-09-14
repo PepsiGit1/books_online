@@ -17,15 +17,10 @@ class SearchContent extends StatelessWidget {
         if (state.status == Status.failure) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.mess.isNotEmpty ? state.mess : 'Something went wrong')));
         }
-        if (state.status == Status.loading) {
-          Center(child: CircularProgressIndicator());
-        }
-        if (state.status == Status.notfound) {
-          const Center(child: Text('No books found'));
-        }
       },
       builder: (context, state) {
         final books = state.isSearching ? state.searchResults : state.book.take(4).toList();
+
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -43,32 +38,47 @@ class SearchContent extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                Expanded(
-                  child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.5,
-                    ),
-                    itemCount: books.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final book = state.book[index];
-                      return CardBookWidget(
-                        imageUrl: '${ApiEndpoints.baseUrl}${book.coverImageUrl ?? ''}',
-                        title: book.title,
-                        author: book.author ?? '',
-                        rating: book.rating ?? 0,
-                        onPressed: () {
-                          debugPrint('Book ${book.id} clicked');
-                        },
-                      );
-                    },
-                  ),
-                ),
+                Expanded(child: _buildBooksContent(context, state, books)),
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBooksContent(BuildContext context, SearchState state, List books) {
+    if (state.status == Status.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state.isSearching && state.status == Status.notfound) {
+      return const Center(child: Text('No books found'));
+    }
+
+    if (books.isEmpty) {
+      return const Center(child: Text('No books available'));
+    }
+
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 0.5,
+      ),
+      itemCount: books.length,
+      itemBuilder: (context, index) {
+        final book = books[index];
+
+        return CardBookWidget(
+          imageUrl: '${ApiEndpoints.baseUrl}${book.coverImageUrl ?? ''}',
+          title: book.title,
+          author: book.author ?? '',
+          rating: book.rating ?? 0,
+          onPressed: () {
+            debugPrint('Book ${book.id} clicked');
+          },
         );
       },
     );

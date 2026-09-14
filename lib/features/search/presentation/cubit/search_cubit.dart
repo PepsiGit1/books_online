@@ -53,35 +53,28 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> searchBooks(String query, {int? categoryId}) async {
-    if (isClosed) return;
+    final selectedId = categoryId ?? state.selectedCategoryId;
 
-    final value = query.trim();
+    emit(state.copyWith(selectedCategoryId: selectedId, status: Status.loading, mess: ''));
 
-    final selectedCategory = categoryId ?? state.selectedCategoryId;
+    final result = await _searchBooksUseCase(query: query, categoryId: selectedId == 0 ? null : selectedId);
 
-    // All + empty search
-    if (selectedCategory == 0 && value.isEmpty) {
-      await getDefaultBooks();
+    if (result.isSuccess) {
+      final results = result.data ?? [];
+
+      emit(
+        state.copyWith(
+          selectedCategoryId: selectedId,
+          status: results.isEmpty ? Status.notfound : Status.success,
+          searchResults: results,
+          isSearching: query.trim().isNotEmpty || selectedId != 0,
+        ),
+      );
+
       return;
     }
 
-    emit(state.copyWith(status: Status.loading, isSearching: true, selectedCategoryId: selectedCategory));
-
-    final result = await _searchBooksUseCase(query: value, categoryId: selectedCategory == 0 ? null : selectedCategory);
-
-    if (isClosed) return;
-
-    if (result.isSuccess) {
-      final books = result.data ?? [];
-
-      if (books.isEmpty) {
-        emit(state.copyWith(status: Status.notfound, searchResults: [], isSearching: true));
-      } else {
-        emit(state.copyWith(status: Status.success, searchResults: books, isSearching: true));
-      }
-    } else {
-      emit(state.copyWith(status: Status.failure, searchResults: [], isSearching: true));
-    }
+    emit(state.copyWith(selectedCategoryId: selectedId, status: Status.failure, mess: result.error ?? 'Search failed'));
   }
 
   @override
