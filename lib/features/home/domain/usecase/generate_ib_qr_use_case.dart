@@ -9,7 +9,7 @@ class GenerateIbQrUseCase {
 
   GenerateIbQrUseCase(this.repository);
 
-  Future<ApiResponse<PaymentModel>> call({required double amount, required String description}) {
-    return repository.generateIbQr(amount: amount, description: description);
+  Future<ApiResponse<PaymentModel>> call({required double amount, required String description, required String bookId}) {
+    return repository.generateIbQr(amount: amount, description: description, bookId: bookId);
   }
 }

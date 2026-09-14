@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:books_online/core/enum/status.dart';
+import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/profile/data/model/payment_history_model.dart';
 import 'package:books_online/features/profile/data/model/payment_meta_model.dart';
 import 'package:books_online/features/profile/data/model/user_model.dart';
@@ -7,6 +8,7 @@ import 'package:books_online/features/profile/domain/usecase/change_password_use
 import 'package:books_online/features/profile/domain/usecase/get_me_use_case.dart';
 import 'package:books_online/features/profile/domain/usecase/get_my_payment_usecase.dart';
 import 'package:books_online/features/profile/domain/usecase/logout_usecase.dart';
+import 'package:books_online/features/profile/domain/usecase/my_library.dart';
 import 'package:books_online/features/profile/domain/usecase/update_profile_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -24,9 +26,16 @@ class ProfileCubit extends Cubit<ProfileState> {
   final ChangePasswordUseCase _changePasswordUseCase;
   final GetPaymentHistory _getMyPaymentHistory;
   final UpdateProfileUseCase _updateProfileUseCase;
+  final GetMyBooksUseCase _getMyBooksUseCase;
   final ImagePicker _picker = ImagePicker();
-  ProfileCubit(this._getMeUseCase, this._logoutUseCase, this._changePasswordUseCase, this._getMyPaymentHistory, this._updateProfileUseCase)
-    : super(ProfileState());
+  ProfileCubit(
+    this._getMeUseCase,
+    this._logoutUseCase,
+    this._changePasswordUseCase,
+    this._getMyPaymentHistory,
+    this._updateProfileUseCase,
+    this._getMyBooksUseCase,
+  ) : super(ProfileState());
 
   final formKey = GlobalKey<FormBuilderState>();
 
@@ -108,5 +117,18 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void nameChanged(String value) {
     emit(state.copyWith(name: value));
+  }
+
+  Future<void> getMyLibrary({required String userId}) async {
+    emit(state.copyWith(libraryStatus: Status.loading, mess: ''));
+
+    final result = await _getMyBooksUseCase(userId: userId);
+
+    if (result.isSuccess) {
+      emit(state.copyWith(libraryStatus: Status.success, myLibrary: result.data ?? []));
+      return;
+    }
+
+    emit(state.copyWith(libraryStatus: Status.failure, mess: result.error ?? 'Failed to load my books'));
   }
 }

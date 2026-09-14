@@ -16,10 +16,10 @@ class BookModel with _$BookModel {
     double? rating,
     double? progress,
     required int categoryId,
+    @Default(false) bool isSaved,
+    @Default(false) bool isPurchased,
 
     @Default(false) bool isPremium,
-
-    @Default(false) bool isSaved,
 
     @Default(0.0) double price,
 

@@ -36,13 +36,13 @@ class HomeCubit extends Cubit<HomeState> {
 
   final GetAllBooksUsecase _allBooksUsecase;
 
-  final GetBookDetailUsecase getBookDetail;
+  final GetBookDetailUsecase _getBookDetail;
 
   final GetBookSubtitleUsecase getBookSubtitle;
 
   final GetAllCategoriesUsecase _getAllCategoriesUsecase;
 
-  HomeCubit(this._paymentRepository, this._allBooksUsecase, this.getBookDetail, this.getBookSubtitle, this._getAllCategoriesUsecase)
+  HomeCubit(this._paymentRepository, this._allBooksUsecase, this._getBookDetail, this.getBookSubtitle, this._getAllCategoriesUsecase)
     : super(const HomeState());
 
   final AudioPlayer _player = AudioPlayer();
@@ -100,24 +100,36 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> loadBookDetail(BookModel book) async {
     try {
-      emit(state.copyWith(audioBook: book, selectedChapter: null, isAudioLoading: false, segments: []));
+      emit(state.copyWith(status: Status.loading, audioBook: book, selectedChapter: null, isAudioLoading: false, segments: []));
+      if (book.chapters.isEmpty) {
+        final result = await _getBookDetail(id: book.id);
+
+        if (!result.isSuccess || result.data == null) {
+          emit(state.copyWith(status: Status.failure, mess: result.error ?? 'Failed to load book detail'));
+          return;
+        }
+
+        book = result.data!;
+
+        emit(state.copyWith(audioBook: book));
+      }
 
       if (book.chapters.isEmpty) {
-        debugPrint('Book has no chapters');
-
+        emit(state.copyWith(status: Status.failure, mess: 'This book has no chapters'));
         return;
       }
 
       final firstChapter = book.chapters.first;
 
       await loadChapter(book: book, chapter: firstChapter);
+
+      emit(state.copyWith(status: Status.success));
     } catch (e) {
       debugPrint('loadBookDetail error: $e');
 
-      emit(state.copyWith(isAudioLoading: false, status: Status.failure, mess: e.toString()));
+      emit(state.copyWith(status: Status.failure, mess: e.toString(), isAudioLoading: false));
     }
   }
-
   // ============================================================
   // CHAPTER
   // ============================================================

@@ -16,8 +16,9 @@ _$BookModelImpl _$$BookModelImplFromJson(Map<String, dynamic> json) =>
       rating: (json['rating'] as num?)?.toDouble(),
       progress: (json['progress'] as num?)?.toDouble(),
       categoryId: (json['categoryId'] as num).toInt(),
-      isPremium: json['isPremium'] as bool? ?? false,
       isSaved: json['isSaved'] as bool? ?? false,
+      isPurchased: json['isPurchased'] as bool? ?? false,
+      isPremium: json['isPremium'] as bool? ?? false,
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
       category:
           json['category'] == null
@@ -42,8 +43,9 @@ Map<String, dynamic> _$$BookModelImplToJson(_$BookModelImpl instance) =>
       'rating': instance.rating,
       'progress': instance.progress,
       'categoryId': instance.categoryId,
-      'isPremium': instance.isPremium,
       'isSaved': instance.isSaved,
+      'isPurchased': instance.isPurchased,
+      'isPremium': instance.isPremium,
       'price': instance.price,
       'category': instance.category,
       'chapters': instance.chapters,

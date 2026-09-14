@@ -9,7 +9,7 @@ class GenerateJdbQrUseCase {
 
   GenerateJdbQrUseCase(this.repository);
 
-  Future<ApiResponse<PaymentModel>> call({required double amount, required String description}) {
-    return repository.generateJdbQr(amount: amount, description: description);
+  Future<ApiResponse<PaymentModel>> call({required double amount, required String description, required int bookId}) {
+    return repository.generateJdbQr(amount: amount, description: description, bookId: bookId);
   }
 }

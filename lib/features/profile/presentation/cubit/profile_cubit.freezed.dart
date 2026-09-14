@@ -30,6 +30,8 @@ mixin _$ProfileState {
   List<PaymentHistoryModel> get payments => throw _privateConstructorUsedError;
   PaymentMetaModel? get paymentMeta => throw _privateConstructorUsedError;
   bool get isUpdating => throw _privateConstructorUsedError;
+  Status get libraryStatus => throw _privateConstructorUsedError;
+  List<BookModel> get myLibrary => throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -59,6 +61,8 @@ abstract class $ProfileStateCopyWith<$Res> {
     List<PaymentHistoryModel> payments,
     PaymentMetaModel? paymentMeta,
     bool isUpdating,
+    Status libraryStatus,
+    List<BookModel> myLibrary,
   });
 
   $UserModelCopyWith<$Res>? get user;
@@ -93,6 +97,8 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? payments = null,
     Object? paymentMeta = freezed,
     Object? isUpdating = null,
+    Object? libraryStatus = null,
+    Object? myLibrary = null,
   }) {
     return _then(
       _value.copyWith(
@@ -161,6 +167,16 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
                     ? _value.isUpdating
                     : isUpdating // ignore: cast_nullable_to_non_nullable
                         as bool,
+            libraryStatus:
+                null == libraryStatus
+                    ? _value.libraryStatus
+                    : libraryStatus // ignore: cast_nullable_to_non_nullable
+                        as Status,
+            myLibrary:
+                null == myLibrary
+                    ? _value.myLibrary
+                    : myLibrary // ignore: cast_nullable_to_non_nullable
+                        as List<BookModel>,
           )
           as $Val,
     );
@@ -218,6 +234,8 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
     List<PaymentHistoryModel> payments,
     PaymentMetaModel? paymentMeta,
     bool isUpdating,
+    Status libraryStatus,
+    List<BookModel> myLibrary,
   });
 
   @override
@@ -253,6 +271,8 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? payments = null,
     Object? paymentMeta = freezed,
     Object? isUpdating = null,
+    Object? libraryStatus = null,
+    Object? myLibrary = null,
   }) {
     return _then(
       _$ProfileStateImpl(
@@ -321,6 +341,16 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
                 ? _value.isUpdating
                 : isUpdating // ignore: cast_nullable_to_non_nullable
                     as bool,
+        libraryStatus:
+            null == libraryStatus
+                ? _value.libraryStatus
+                : libraryStatus // ignore: cast_nullable_to_non_nullable
+                    as Status,
+        myLibrary:
+            null == myLibrary
+                ? _value._myLibrary
+                : myLibrary // ignore: cast_nullable_to_non_nullable
+                    as List<BookModel>,
       ),
     );
   }
@@ -343,7 +373,10 @@ class _$ProfileStateImpl implements _ProfileState {
     final List<PaymentHistoryModel> payments = const [],
     this.paymentMeta,
     this.isUpdating = false,
-  }) : _payments = payments;
+    this.libraryStatus = Status.initial,
+    final List<BookModel> myLibrary = const [],
+  }) : _payments = payments,
+       _myLibrary = myLibrary;
 
   @override
   @JsonKey()
@@ -387,10 +420,21 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   @JsonKey()
   final bool isUpdating;
+  @override
+  @JsonKey()
+  final Status libraryStatus;
+  final List<BookModel> _myLibrary;
+  @override
+  @JsonKey()
+  List<BookModel> get myLibrary {
+    if (_myLibrary is EqualUnmodifiableListView) return _myLibrary;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_myLibrary);
+  }
 
   @override
   String toString() {
-    return 'ProfileState(status: $status, updateStatus: $updateStatus, mess: $mess, user: $user, selectedImagePath: $selectedImagePath, name: $name, isLoggingOut: $isLoggingOut, logoutSuccess: $logoutSuccess, isChangingPassword: $isChangingPassword, changePasswordSuccess: $changePasswordSuccess, payments: $payments, paymentMeta: $paymentMeta, isUpdating: $isUpdating)';
+    return 'ProfileState(status: $status, updateStatus: $updateStatus, mess: $mess, user: $user, selectedImagePath: $selectedImagePath, name: $name, isLoggingOut: $isLoggingOut, logoutSuccess: $logoutSuccess, isChangingPassword: $isChangingPassword, changePasswordSuccess: $changePasswordSuccess, payments: $payments, paymentMeta: $paymentMeta, isUpdating: $isUpdating, libraryStatus: $libraryStatus, myLibrary: $myLibrary)';
   }
 
   @override
@@ -418,7 +462,13 @@ class _$ProfileStateImpl implements _ProfileState {
             (identical(other.paymentMeta, paymentMeta) ||
                 other.paymentMeta == paymentMeta) &&
             (identical(other.isUpdating, isUpdating) ||
-                other.isUpdating == isUpdating));
+                other.isUpdating == isUpdating) &&
+            (identical(other.libraryStatus, libraryStatus) ||
+                other.libraryStatus == libraryStatus) &&
+            const DeepCollectionEquality().equals(
+              other._myLibrary,
+              _myLibrary,
+            ));
   }
 
   @override
@@ -437,6 +487,8 @@ class _$ProfileStateImpl implements _ProfileState {
     const DeepCollectionEquality().hash(_payments),
     paymentMeta,
     isUpdating,
+    libraryStatus,
+    const DeepCollectionEquality().hash(_myLibrary),
   );
 
   /// Create a copy of ProfileState
@@ -463,6 +515,8 @@ abstract class _ProfileState implements ProfileState {
     final List<PaymentHistoryModel> payments,
     final PaymentMetaModel? paymentMeta,
     final bool isUpdating,
+    final Status libraryStatus,
+    final List<BookModel> myLibrary,
   }) = _$ProfileStateImpl;
 
   @override
@@ -491,6 +545,10 @@ abstract class _ProfileState implements ProfileState {
   PaymentMetaModel? get paymentMeta;
   @override
   bool get isUpdating;
+  @override
+  Status get libraryStatus;
+  @override
+  List<BookModel> get myLibrary;
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.

@@ -21,17 +21,52 @@ class PaymentCubit extends Cubit<PaymentState> {
   final ListenPaymentStatusUseCase _listenPaymentStatus;
   PaymentCubit(this._generateBcelQr, this._generateJdbQr, this._generateIbQr, this._listenPaymentStatus) : super(PaymentState());
   StreamSubscription<Map<String, dynamic>>? _paymentSubscription;
+  Future<PaymentModel?> generateBcelQr({required double amount, required int bookId}) async {
+    emit(state.copyWith(status: Status.loading, mess: ''));
 
-  Future<PaymentModel?> generateBcelQr({required double amount}) {
-    return _generate(bank: 'BCEL', request: () => _generateBcelQr(amount: amount, description: 'Books Online'));
+    final result = await _generateBcelQr(amount: amount, description: 'Book payment', bookId: bookId);
+
+    if (result.isSuccess) {
+      emit(state.copyWith(status: Status.success, payment: result.data));
+
+      return result.data;
+    }
+
+    emit(state.copyWith(status: Status.failure, mess: result.error ?? 'Payment failed'));
+
+    return null;
   }
 
-  Future<PaymentModel?> generateJdbQr({required double amount}) {
-    return _generate(bank: 'JDB', request: () => _generateJdbQr(amount: amount, description: 'Books Online'));
+  Future<PaymentModel?> generateJdbQr({required double amount, required int bookId}) async {
+    emit(state.copyWith(status: Status.loading, mess: ''));
+
+    final result = await _generateJdbQr(amount: amount, description: 'Book payment', bookId: bookId);
+
+    if (result.isSuccess) {
+      emit(state.copyWith(status: Status.success, payment: result.data));
+
+      return result.data;
+    }
+
+    emit(state.copyWith(status: Status.failure, mess: result.error ?? 'Payment failed'));
+
+    return null;
   }
 
-  Future<PaymentModel?> generateIbQr({required double amount}) {
-    return _generate(bank: 'IB', request: () => _generateIbQr(amount: amount, description: 'Books Online'));
+  Future<PaymentModel?> generateIbQr({required double amount, required String bookId}) async {
+    emit(state.copyWith(status: Status.loading, mess: ''));
+
+    final result = await _generateIbQr(amount: amount, description: 'Book payment', bookId: bookId);
+
+    if (result.isSuccess) {
+      emit(state.copyWith(status: Status.success, payment: result.data));
+
+      return result.data;
+    }
+
+    emit(state.copyWith(status: Status.failure, mess: result.error ?? 'Payment failed'));
+
+    return null;
   }
 
   Future<PaymentModel?> _generate({required String bank, required Future<dynamic> Function() request}) async {

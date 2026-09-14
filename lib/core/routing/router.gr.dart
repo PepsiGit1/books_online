@@ -114,6 +114,45 @@ class LoginRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MyLibraryPage]
+class MyLibraryRoute extends PageRouteInfo<MyLibraryRouteArgs> {
+  MyLibraryRoute({
+    Key? key,
+    required String userId,
+    List<PageRouteInfo>? children,
+  }) : super(
+         MyLibraryRoute.name,
+         args: MyLibraryRouteArgs(key: key, userId: userId),
+         initialChildren: children,
+       );
+
+  static const String name = 'MyLibraryRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<MyLibraryRouteArgs>();
+      return WrappedRoute(
+        child: MyLibraryPage(key: args.key, userId: args.userId),
+      );
+    },
+  );
+}
+
+class MyLibraryRouteArgs {
+  const MyLibraryRouteArgs({this.key, required this.userId});
+
+  final Key? key;
+
+  final String userId;
+
+  @override
+  String toString() {
+    return 'MyLibraryRouteArgs{key: $key, userId: $userId}';
+  }
+}
+
+/// generated route for
 /// [PaymentHistoryPage]
 class PaymentHistoryRoute extends PageRouteInfo<void> {
   const PaymentHistoryRoute({List<PageRouteInfo>? children})

@@ -22,19 +22,24 @@ class ProfilePage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1C1C1E),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          if (state.status == Status.loading) {
-            return const Center(child: CircularProgressIndicator(color: Colors.white));
-          }
-
+      backgroundColor: AppColors.greyDark,
+      body: BlocConsumer<ProfileCubit, ProfileState>(
+        listenWhen: (previous, current) {
+          return previous.logoutSuccess != current.logoutSuccess || previous.status != current.status;
+        },
+        listener: (context, state) {
           if (state.logoutSuccess) {
             context.router.replace(const LoginRoute());
+            return;
           }
 
           if (state.status == Status.failure) {
-            return Center(child: Text(state.mess, style: const TextStyle(color: Colors.white)));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.mess.isNotEmpty ? state.mess : 'Something went wrong')));
+          }
+        },
+        builder: (context, state) {
+          if (state.status == Status.loading) {
+            return const Center(child: CircularProgressIndicator(color: Colors.white));
           }
 
           final user = state.user;
@@ -47,6 +52,7 @@ class ProfilePage extends StatelessWidget implements AutoRouteWrapper {
             child: Column(
               children: [
                 HeaderWidget(name: user.name ?? 'No name', email: user.email, avatarUrl: user.imageProfile),
+
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -55,60 +61,72 @@ class ProfilePage extends StatelessWidget implements AutoRouteWrapper {
                       padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
                       child: Column(
                         children: [
-                          MenuGroupWidget(items: [MenuItemData(icon: Icons.account_balance_wallet_outlined, label: 'Wallet')]),
+                          // MenuGroupWidget(items: [MenuItemData(icon: Icons.account_balance_wallet_outlined, label: 'Wallet')]),
                           const SizedBox(height: 14),
+
                           MenuGroupWidget(
                             items: [
                               MenuItemData(
                                 icon: Icons.menu_book_outlined,
                                 label: 'My Library',
                                 onTap: () {
-                                  // TODO: context.router.push(MyLibraryRoute());
+                                  context.router.push(MyLibraryRoute(userId: user.id));
                                 },
                               ),
+
                               MenuItemData(
                                 icon: Icons.bookmark_border,
                                 label: 'Saved Books',
                                 onTap: () {
-                                  // TODO: context.router.push(SavedBooksRoute());
+                                  // TODO: context.router.push(
+                                  //   SavedBooksRoute(),
+                                  // );
                                 },
                               ),
+
                               MenuItemData(
                                 icon: Icons.headphones_outlined,
                                 label: 'Continue Listening',
                                 onTap: () {
-                                  // TODO: context.router.push(ContinueListeningRoute());
+                                  // TODO: context.router.push(
+                                  //   ContinueListeningRoute(),
+                                  // );
                                 },
                               ),
                             ],
                           ),
+
                           const SizedBox(height: 14),
 
-                          // Payments: relevant since PayPal is integrated
                           MenuGroupWidget(
                             items: [
                               MenuItemData(
                                 icon: Icons.receipt_long_outlined,
                                 label: 'Payment History',
                                 onTap: () {
-                                  TODO:
                                   context.router.push(PaymentHistoryRoute());
                                 },
                               ),
                             ],
                           ),
+
                           const SizedBox(height: 14),
 
-                          // Account management
                           MenuGroupWidget(
                             items: [
                               MenuItemData(
                                 icon: Icons.edit_outlined,
                                 label: 'Edit Profile',
-                                onTap: () {
-                                  context.router.push(UpdateProfileRoute());
+                                onTap: () async {
+                                  await context.router.push(const UpdateProfileRoute());
+
+                                  if (!context.mounted) return;
+
+                                  // Reload updated profile
+                                  context.read<ProfileCubit>().getMe();
                                 },
                               ),
+
                               MenuItemData(
                                 icon: Icons.lock_outline,
                                 label: 'Change Password',
@@ -116,18 +134,21 @@ class ProfilePage extends StatelessWidget implements AutoRouteWrapper {
                                   context.router.push(ChangePasswordRoute());
                                 },
                               ),
+
                               MenuItemData(
                                 icon: Icons.settings_outlined,
                                 label: 'Settings',
                                 onTap: () {
-                                  // TODO: context.router.push(SettingsRoute());
+                                  // TODO: context.router.push(
+                                  //   SettingsRoute(),
+                                  // );
                                 },
                               ),
                             ],
                           ),
+
                           const SizedBox(height: 14),
 
-                          // Sign out
                           MenuGroupWidget(
                             items: [
                               MenuItemData(

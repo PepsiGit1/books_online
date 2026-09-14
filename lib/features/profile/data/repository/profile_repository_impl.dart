@@ -1,5 +1,6 @@
 import 'package:books_online/core/api/api_response.dart';
 import 'package:books_online/features/auth/%20data/datasource/local/auth_local_datasource.dart';
+import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/profile/data/datasource/remote/profile_remote_data_source.dart';
 import 'package:books_online/features/profile/data/model/payment_history_response_model.dart';
 import 'package:books_online/features/profile/data/model/user_model.dart';
@@ -42,5 +43,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<ApiResponse<UserModel>> updateProfile({required String name, String? imagePath}) {
     return remoteDataSource.updateProfile(name: name, imagePath: imagePath);
+  }
+
+  @override
+  Future<ApiResponse<List<BookModel>>> getMyBooks({required String userId}) {
+    return remoteDataSource.getMyBooks(userId: userId);
   }
 }

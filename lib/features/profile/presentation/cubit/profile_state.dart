@@ -16,5 +16,7 @@ class ProfileState with _$ProfileState {
     @Default([]) List<PaymentHistoryModel> payments,
     PaymentMetaModel? paymentMeta,
     @Default(false) bool isUpdating,
+    @Default(Status.initial) Status libraryStatus,
+    @Default([]) List<BookModel> myLibrary,
   }) = _ProfileState;
 }

@@ -18,7 +18,7 @@ abstract class PaymentRemoteDataSource {
 
   Future<List<BookModel>> getAllBooks();
 
-  Future<BookModel> getBookById({required int id});
+  Future<ApiResponse<BookModel>> getBookById({required int id});
 
   Future<String> getSubtitle({required String url});
 
@@ -77,15 +77,15 @@ class PaymentRemoteDataSourceImpl implements PaymentRemoteDataSource {
   }
 
   @override
-  Future<BookModel> getBookById({required int id}) async {
+  Future<ApiResponse<BookModel>> getBookById({required int id}) async {
     try {
       final response = await apiClient.get('${ApiEndpoints.book}/$id');
 
-      final data = response.data as Map<String, dynamic>;
+      final book = BookModel.fromJson(response.data['data']);
 
-      return BookModel.fromJson(data['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw Exception('Failed to get book: ${e.message}');
+      return ApiResponse.success(book);
+    } catch (e) {
+      return ApiResponse.error(e.toString());
     }
   }
 

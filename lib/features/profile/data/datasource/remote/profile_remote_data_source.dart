@@ -1,6 +1,7 @@
 import 'package:books_online/core/api/api_response.dart';
 import 'package:books_online/core/api/api_client.dart';
 import 'package:books_online/core/constants/api_endpoints.dart';
+import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/profile/data/model/payment_history_model.dart';
 import 'package:books_online/features/profile/data/model/payment_history_response_model.dart';
 import 'package:books_online/features/profile/data/model/payment_meta_model.dart';
@@ -14,6 +15,7 @@ abstract class ProfileRemoteDataSource {
   Future<ApiResponse<bool>> changePassword({required String currentPassword, required String newPassword});
   Future<ApiResponse<PaymentHistoryResponseModel>> getPaymentHistory({int page = 1, int limit = 20});
   Future<ApiResponse<UserModel>> updateProfile({required String name, String? imagePath});
+  Future<ApiResponse<List<BookModel>>> getMyBooks({required String userId});
 }
 
 @LazySingleton(as: ProfileRemoteDataSource)
@@ -92,6 +94,21 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     } catch (e) {
       print('UPDATE ERROR: $e');
 
+      return ApiResponse.error(e.toString());
+    }
+  }
+
+  @override
+  Future<ApiResponse<List<BookModel>>> getMyBooks({required String userId}) async {
+    try {
+      final response = await apiClient.get('${ApiEndpoints.myLibrary}$userId');
+
+      final data = response.data['data'] as List;
+
+      final books = data.map((json) => BookModel.fromJson(json as Map<String, dynamic>)).toList();
+
+      return ApiResponse.success(books);
+    } catch (e) {
       return ApiResponse.error(e.toString());
     }
   }

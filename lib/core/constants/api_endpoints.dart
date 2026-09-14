@@ -37,4 +37,5 @@ class ApiEndpoints {
   static const String book = '/book';
   static const String category = '/category';
   static const String searchBooks = '/book/search';
+  static const String myLibrary = '/book/mybook/:id';
 }

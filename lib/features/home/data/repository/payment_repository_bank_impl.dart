@@ -11,17 +11,17 @@ class PaymentRepositoryImpl implements PaymentRepository {
   PaymentRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<ApiResponse<PaymentModel>> generateBcelQr({required double amount, required String description}) {
-    return remoteDataSource.generateBcelQr(amount: amount, description: description);
+  Future<ApiResponse<PaymentModel>> generateBcelQr({required double amount, required String description, required int bookId}) {
+    return remoteDataSource.generateBcelQr(amount: amount, description: description, bookId: bookId);
   }
 
   @override
-  Future<ApiResponse<PaymentModel>> generateJdbQr({required double amount, required String description}) {
-    return remoteDataSource.generateJdbQr(amount: amount, description: description);
+  Future<ApiResponse<PaymentModel>> generateJdbQr({required double amount, required String description, required int bookId}) {
+    return remoteDataSource.generateJdbQr(amount: amount, description: description, bookId: bookId);
   }
 
   @override
-  Future<ApiResponse<PaymentModel>> generateIbQr({required double amount, required String description}) {
-    return remoteDataSource.generateIbQr(amount: amount, description: description);
+  Future<ApiResponse<PaymentModel>> generateIbQr({required double amount, required String description, required String bookId}) {
+    return remoteDataSource.generateIbQr(amount: amount, description: description, bookId: bookId);
   }
 }

@@ -6,7 +6,7 @@ class HeaderWidget extends StatelessWidget {
   final String email;
   final String? avatarUrl;
 
-  const HeaderWidget({required this.name, required this.email, this.avatarUrl});
+  const HeaderWidget({super.key, required this.name, required this.email, this.avatarUrl});
 
   @override
   Widget build(BuildContext context) {

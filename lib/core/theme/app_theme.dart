@@ -15,13 +15,6 @@ class AppTheme {
   }
 
   static ThemeData dark() {
-    return ThemeData(
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF66AAFF),
-        brightness: Brightness.dark,
-      ),
-      textTheme: buildTextTheme(),
-    );
+    return ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF66AAFF), brightness: Brightness.dark), textTheme: buildTextTheme());
   }
 }
-

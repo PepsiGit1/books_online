@@ -50,7 +50,7 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
                       onTap: () async {
                         final paymentCubit = context.read<PaymentCubit>();
 
-                        final payment = await paymentCubit.generateBcelQr(amount: book.price);
+                        final payment = await paymentCubit.generateBcelQr(amount: book.price, bookId: book.id);
 
                         if (!context.mounted) return;
 
@@ -81,7 +81,7 @@ class HomeDetailPage extends StatelessWidget implements AutoRouteWrapper {
                       onTap: () async {
                         final paymentCubit = context.read<PaymentCubit>();
 
-                        final payment = await paymentCubit.generateJdbQr(amount: book.price);
+                        final payment = await paymentCubit.generateJdbQr(amount: book.price, bookId: book.id);
 
                         if (!context.mounted) return;
 

@@ -1,3 +1,4 @@
+import 'package:books_online/core/api/api_response.dart';
 import 'package:books_online/features/home/data/model/book_model.dart';
 import 'package:books_online/features/home/domain/repository/book_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -8,7 +9,7 @@ class GetBookDetailUsecase {
 
   GetBookDetailUsecase(this.repository);
 
-  Future<BookModel> call({required int id}) {
+  Future<ApiResponse<BookModel>> call({required int id}) {
     return repository.getBookById(id: id);
   }
 }

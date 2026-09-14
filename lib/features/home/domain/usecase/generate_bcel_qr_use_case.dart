@@ -9,7 +9,7 @@ class GenerateBcelQrUseCase {
 
   GenerateBcelQrUseCase(this.repository);
 
-  Future<ApiResponse<PaymentModel>> call({required double amount, required String description}) {
-    return repository.generateBcelQr(amount: amount, description: description);
+  Future<ApiResponse<PaymentModel>> call({required double amount, required String description, required int bookId}) {
+    return repository.generateBcelQr(amount: amount, description: description, bookId: bookId);
   }
 }

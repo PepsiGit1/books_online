@@ -16,8 +16,7 @@ class BookRepositoryImpl implements BookRepository {
     return remoteDataSource.getAllBooks();
   }
 
-  @override
-  Future<BookModel> getBookById({required int id}) {
+  Future<ApiResponse<BookModel>> getBookById({required int id}) {
     return remoteDataSource.getBookById(id: id);
   }
 

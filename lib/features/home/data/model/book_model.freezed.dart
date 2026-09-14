@@ -29,8 +29,9 @@ mixin _$BookModel {
   double? get rating => throw _privateConstructorUsedError;
   double? get progress => throw _privateConstructorUsedError;
   int get categoryId => throw _privateConstructorUsedError;
-  bool get isPremium => throw _privateConstructorUsedError;
   bool get isSaved => throw _privateConstructorUsedError;
+  bool get isPurchased => throw _privateConstructorUsedError;
+  bool get isPremium => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
   CategoryModel? get category => throw _privateConstructorUsedError;
   List<ChapterModel> get chapters => throw _privateConstructorUsedError;
@@ -59,8 +60,9 @@ abstract class $BookModelCopyWith<$Res> {
     double? rating,
     double? progress,
     int categoryId,
-    bool isPremium,
     bool isSaved,
+    bool isPurchased,
+    bool isPremium,
     double price,
     CategoryModel? category,
     List<ChapterModel> chapters,
@@ -92,8 +94,9 @@ class _$BookModelCopyWithImpl<$Res, $Val extends BookModel>
     Object? rating = freezed,
     Object? progress = freezed,
     Object? categoryId = null,
-    Object? isPremium = null,
     Object? isSaved = null,
+    Object? isPurchased = null,
+    Object? isPremium = null,
     Object? price = null,
     Object? category = freezed,
     Object? chapters = null,
@@ -140,15 +143,20 @@ class _$BookModelCopyWithImpl<$Res, $Val extends BookModel>
                     ? _value.categoryId
                     : categoryId // ignore: cast_nullable_to_non_nullable
                         as int,
-            isPremium:
-                null == isPremium
-                    ? _value.isPremium
-                    : isPremium // ignore: cast_nullable_to_non_nullable
-                        as bool,
             isSaved:
                 null == isSaved
                     ? _value.isSaved
                     : isSaved // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            isPurchased:
+                null == isPurchased
+                    ? _value.isPurchased
+                    : isPurchased // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            isPremium:
+                null == isPremium
+                    ? _value.isPremium
+                    : isPremium // ignore: cast_nullable_to_non_nullable
                         as bool,
             price:
                 null == price
@@ -203,8 +211,9 @@ abstract class _$$BookModelImplCopyWith<$Res>
     double? rating,
     double? progress,
     int categoryId,
-    bool isPremium,
     bool isSaved,
+    bool isPurchased,
+    bool isPremium,
     double price,
     CategoryModel? category,
     List<ChapterModel> chapters,
@@ -236,8 +245,9 @@ class __$$BookModelImplCopyWithImpl<$Res>
     Object? rating = freezed,
     Object? progress = freezed,
     Object? categoryId = null,
-    Object? isPremium = null,
     Object? isSaved = null,
+    Object? isPurchased = null,
+    Object? isPremium = null,
     Object? price = null,
     Object? category = freezed,
     Object? chapters = null,
@@ -284,15 +294,20 @@ class __$$BookModelImplCopyWithImpl<$Res>
                 ? _value.categoryId
                 : categoryId // ignore: cast_nullable_to_non_nullable
                     as int,
-        isPremium:
-            null == isPremium
-                ? _value.isPremium
-                : isPremium // ignore: cast_nullable_to_non_nullable
-                    as bool,
         isSaved:
             null == isSaved
                 ? _value.isSaved
                 : isSaved // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isPurchased:
+            null == isPurchased
+                ? _value.isPurchased
+                : isPurchased // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isPremium:
+            null == isPremium
+                ? _value.isPremium
+                : isPremium // ignore: cast_nullable_to_non_nullable
                     as bool,
         price:
             null == price
@@ -326,8 +341,9 @@ class _$BookModelImpl implements _BookModel {
     this.rating,
     this.progress,
     required this.categoryId,
-    this.isPremium = false,
     this.isSaved = false,
+    this.isPurchased = false,
+    this.isPremium = false,
     this.price = 0.0,
     this.category,
     final List<ChapterModel> chapters = const [],
@@ -354,10 +370,13 @@ class _$BookModelImpl implements _BookModel {
   final int categoryId;
   @override
   @JsonKey()
-  final bool isPremium;
+  final bool isSaved;
   @override
   @JsonKey()
-  final bool isSaved;
+  final bool isPurchased;
+  @override
+  @JsonKey()
+  final bool isPremium;
   @override
   @JsonKey()
   final double price;
@@ -374,7 +393,7 @@ class _$BookModelImpl implements _BookModel {
 
   @override
   String toString() {
-    return 'BookModel(id: $id, title: $title, author: $author, productId: $productId, coverImageUrl: $coverImageUrl, rating: $rating, progress: $progress, categoryId: $categoryId, isPremium: $isPremium, isSaved: $isSaved, price: $price, category: $category, chapters: $chapters)';
+    return 'BookModel(id: $id, title: $title, author: $author, productId: $productId, coverImageUrl: $coverImageUrl, rating: $rating, progress: $progress, categoryId: $categoryId, isSaved: $isSaved, isPurchased: $isPurchased, isPremium: $isPremium, price: $price, category: $category, chapters: $chapters)';
   }
 
   @override
@@ -394,9 +413,11 @@ class _$BookModelImpl implements _BookModel {
                 other.progress == progress) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
+            (identical(other.isSaved, isSaved) || other.isSaved == isSaved) &&
+            (identical(other.isPurchased, isPurchased) ||
+                other.isPurchased == isPurchased) &&
             (identical(other.isPremium, isPremium) ||
                 other.isPremium == isPremium) &&
-            (identical(other.isSaved, isSaved) || other.isSaved == isSaved) &&
             (identical(other.price, price) || other.price == price) &&
             (identical(other.category, category) ||
                 other.category == category) &&
@@ -415,8 +436,9 @@ class _$BookModelImpl implements _BookModel {
     rating,
     progress,
     categoryId,
-    isPremium,
     isSaved,
+    isPurchased,
+    isPremium,
     price,
     category,
     const DeepCollectionEquality().hash(_chapters),
@@ -446,8 +468,9 @@ abstract class _BookModel implements BookModel {
     final double? rating,
     final double? progress,
     required final int categoryId,
-    final bool isPremium,
     final bool isSaved,
+    final bool isPurchased,
+    final bool isPremium,
     final double price,
     final CategoryModel? category,
     final List<ChapterModel> chapters,
@@ -473,9 +496,11 @@ abstract class _BookModel implements BookModel {
   @override
   int get categoryId;
   @override
-  bool get isPremium;
-  @override
   bool get isSaved;
+  @override
+  bool get isPurchased;
+  @override
+  bool get isPremium;
   @override
   double get price;
   @override
